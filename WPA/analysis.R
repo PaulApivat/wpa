@@ -358,3 +358,31 @@ plot7b <- ggplot(data = overlap2_df_b, mapping = aes(x=diff_date, fill=type))
 + ylim(0,40) 
 + labs(x = "Length of MedCo Assignments", y = "Number of People", title = "Difference in Average Length of MedCo Assignments", fill = "Number of MedCo")
 
+# t.test
+t.test(diff_date ~ type, data = overlap2_df_b)
+
+#### PLOT12
+
+# question: Does length of assignment matter for first Medco assignments?
+# context: There are 93 people whose first assignment was MedCo, 
+# - 66 only did one MedCo
+# - 27 did more than one
+
+# create a93 data frame from 'a'
+a %>% filter(assignment_number==1) %>% 
+    filter(pool=="MEDCO") %>% 
+    group_by(num_medco, first_departure) %>% 
+    tally(sort = TRUE) -> a93
+
+# reverse factor-level of a93x  (check str(a93) vs. str(a93x))
+# reverse factor-level helps with CLEARER visualization
+a93x <- a93
+a93x$first_departure <- factor(a93x$first_departure, levels = rev(levels(a93x$first_departure)))
+
+# plot using a93x data frame
+plot12 <- ggplot(data = a93x, mapping = aes(x=num_medco, y=n, fill=first_departure)) 
++ geom_col() 
++ labs(x="Number of Medco", y = "Number of People", title = "93 people whose first assignment was Medco", fill = "Departure Status") 
++ scale_fill_manual(values = c("black", "#6c6c6c", "#e9222a")) 
++ scale_x_discrete(limits=c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")) 
++ theme(panel.background = element_blank())
