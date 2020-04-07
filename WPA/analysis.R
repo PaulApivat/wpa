@@ -461,7 +461,7 @@ plot6 <- ggplot(overlap_df, aes(x=num_medco, fill=type))
 t.test(num_medco ~ type, data = overlap_df)
 
 ### PLOT6b
-
+# note: similar to previous plot, but see differences in TOTAL number of assignments
 # starting point are data frames 'b' and 'c'
 # calculate mean and standard deviation
 
@@ -477,4 +477,67 @@ plot6b <- ggplot(data = overlap_df_b, mapping = aes(x=total_num_assign, fill=typ
 + scale_fill_manual(labels=c("Consecutive", "Non-Consecutive (Gap)"), values = c("#EE0000", "#000000")) 
 + xlim(0,30) 
 + labs(x = "Number of Assignments", y = "Number of People", title = "Differences in Number of (Total) Assignments", fill = "MedCo Pattern")
+
+
+### PLOT6a
+# note to see if there are differences between 'consecutive' vs 'non-consecutive' in
+# WHEN their first MedCo assignment was
+# differences in how long it takes to 'get ready'
+
+# calculating average number of assignments
+# consecutive
+b %>% filter(consecutive=="consecutive") %>% filter(num_medco > 1) %>% summarize(avg_position_first_medco = mean(assign_num_first_medco), sd = sd(assign_num_first_medco))
+# non-consecutive
+c %>% summarize(avg_position_first_medco = mean(assign_num_first_medco), sd = sd(assign_num_first_medco))
+
+
+# create overlap_df_a
+consecutive_set_a <- data.frame(type = "consecutive", assign_num_first_medco = rnorm(n=88, mean = 4, sd = 2.95561))
+non_consecutive_set_a <- data.frame(type = "non-consecutive", assign_num_first_medco = rnorm(n=112, mean = 5.598214, sd = 4.462981))
+overlap_df_a <- rbind(consecutive_set_a, non_consecutive_set_a)
+
+# plot
+plot6a <- ggplot(data = overlap_df_a, mapping = aes(x=assign_num_first_medco, fill=type)) 
++ geom_histogram(alpha = .8, binwidth = .5, position = "identity") 
++ theme_classic() 
++ scale_fill_manual(labels=c("Consecutive", "Non-Consecutive (Gap)"), values = c("#EE0000", "#000000")) 
++ xlim(0,17) 
++ ylim(0,17) 
++ labs(x = "Assignment Number of first MedCo", y = "Number of People", title = "When did people do their first MedCo assignment?", fill = "MedCo Pattern")
+
+# t-test
+t.test(assign_num_first_medco ~ type, data = overlap_df_a)
+
+### PLOT11a
+# create b_cor data frame
+b_cor <- b %>% select(staff_id, num_medco, total_num_assign, consecutive)
+
+# plot
+plot11a <- ggplot(data = b_cor, mapping = aes(x=num_medco, y=total_num_assign, color = consecutive)) 
++ geom_point(size = 5, alpha = .5) 
++ geom_smooth(method = lm, se = FALSE) 
++ labs(x = "Number of Medco Assignments", y = "Number of Total Assignments", color = "MedCo Pattern") 
++ scale_color_manual(values = c("#EE0000", "#000000")) 
++ theme_classic()
+
+##### PLOT8b
+# What do people do BEFORE MedCo?
+# answer with stacked bar chart
+
+# create before_medco_df_b
+a %>% 
+    filter(assign_num_first_medco==5) %>% 
+    filter(assignment_number < 5) %>% 
+    count(assignment_number, pool) -> before_medco_df_b
+
+# filter out 'unknown'
+before_medco_df_b <- before_medco_df_b %>% 
+    filter(pool != "Unknown")
+
+# plot
+plot8b <- ggplot(before_medco_df_b, aes(fill=pool, y=n, x=assignment_number)) 
++ geom_bar(position = "fill", stat = "identity") 
++ scale_fill_manual(values = c("#FFE5E5", "#FF9393", "#EE0000", "#F5F5F5", "#DCDCDC", "#C0C0C0", "#8B8989", "#000000")) 
++ labs(x = "Assignment Number", y = "Percentage", title = "Pools represented in first four assignments before first MedCo", fill = "Pools") 
++ theme_classic()
 
