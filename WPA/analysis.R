@@ -157,3 +157,24 @@ b <- distinct(a, staff_id, .keep_all = TRUE)
 # for all NON-consecutive
 c <- b[is.na(b$consecutive),]
 
+
+#########-------------- PLOT(s)-------------- ############
+
+# temp: tally number of assignments in each pool
+temp <- df %>%
+    group_by(pool) %>%
+    tally(sort = TRUE)
+
+# plot
+# counting frequency of assignments in each Pool
+plot <- ggplot(data = temp, mapping = aes(x=reorder(pool,n), y=n, fill = if_else(temp$pool=="MEDCO", "#e9222a", "#0d0d0d"))) 
++ geom_bar(stat = "identity") 
++ coord_flip() 
++ geom_text(aes(label = n), vjust = 1.0, hjust = -0.5, color = "black") 
++ theme(legend.position = "none") 
++ labs(y = "Number of Assignments", x = "Pools", title = "Total Assignments in each Pool") 
++ scale_fill_manual(values = c("#6c6c6c", "#e9222a")) 
++ theme(panel.background = element_blank())
+
+
+
