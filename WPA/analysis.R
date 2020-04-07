@@ -386,3 +386,27 @@ plot12 <- ggplot(data = a93x, mapping = aes(x=num_medco, y=n, fill=first_departu
 + scale_fill_manual(values = c("black", "#6c6c6c", "#e9222a")) 
 + scale_x_discrete(limits=c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")) 
 + theme(panel.background = element_blank())
+
+#### PLOT11b
+# note: to see if relationship between Number of Assignments and Position of First MedCo differs between Departure Status
+
+# subset only variables of interest
+b_mod <- b %>% select(staff_id, num_medco, assign_num_first_medco, first_departure)
+
+# plot
+plot11b <- ggplot(data = b_mod, mapping = aes(x=num_medco, y=assign_num_first_medco, color = first_departure)) 
++ geom_point(size = 5, alpha = .5) 
++ geom_smooth(method = lm, se = FALSE) 
++ labs(x = "Number of MedCo Assignments", y = "Position of First MedCo Assignment", color = "Departure Status") 
++ scale_color_manual(values = c("#EE0000", "#FF9393", "#000000")) 
++ theme_classic()
+
+# correlation between num_medco and assign_num_first_medco by departure status
+
+# r = -0.008226777
+b_mod %>% filter(first_departure=="First departure") %>% get_correlation(formula = num_medco ~ assign_num_first_medco)
+# r = -0.00596063
+b_mod %>% filter(first_departure=="First departure, relevant experience") %>% get_correlation(formula = num_medco ~ assign_num_first_medco)
+# r = 0.2270808
+b_mod %>% filter(first_departure=="Not first departure") %>% get_correlation(formula = num_medco ~ assign_num_first_medco)
+
