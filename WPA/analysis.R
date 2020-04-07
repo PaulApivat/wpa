@@ -278,3 +278,44 @@ plot7 <- ggplot(data = overlap2_df, mapping = aes(x=assign_num_first_medco, fill
 t.test(assign_num_first_medco ~ type, data = overlap2_df)
 
 ### plot7a 
+
+# starting point data frames ONLY ‘b’  (compared 1 medco, n=262, vs >1 medco, n=200)
+
+# first calculated mean and standard deviation, then you’ll use those mean to construct the graphs
+# b (n = 262)
+
+b %>%
+    filter(num_medco==1) %>%
+    summarize(avg_num_assignment = mean(total_num_assign), sd = sd(total_num_assign))
+
+  avg_num_assignment       sd
+1           5.675573 		5.158567
+
+# b (n = 200)
+
+b %>%
+    filter(num_medco > 1) %>%
+    summarize(avg_num_assignment = mean(total_num_assign), sd = sd(total_num_assign))
+
+  avg_num_assignment       sd
+1              10.41 		6.917453
+
+# create two dataframe, then use rbind() as precursor
+
+one_medco_a <- data.frame(type = "one_medco", total_num_assign = rnorm(n=262, mean = 5.675573, sd = 5.158567))
+more_than_one_medco_a <- data.frame(type = "more_than_one_medco", total_num_assign = rnorm(n=200, mean = 10.41, sd = 6.917453))
+overlap2_df_a <- rbind(one_medco_a, more_than_one_medco_a)
+
+# plot7a
+plot7a <- ggplot(data = overlap2_df_a, mapping = aes(x=total_num_assign, fill=type)) 
++ geom_histogram(alpha = .8, binwidth = 1, position = "identity") 
++ theme_classic() 
++ scale_fill_manual(labels=c("One", "More than one"), values = c("#e9222a", "#6c6c6c")) 
++ xlim(0,30) 
++ ylim(0,30) 
++ labs(x = "Average Number of Assignments", y = "Number of People", title = "Difference in Average Number of Assignments", fill = "Number of MedCo")
+
+# t.test (significant difference e in average number of (total) assignments)
+t.test(total_num_assign ~ type, data = overlap2_df_a)
+
+
