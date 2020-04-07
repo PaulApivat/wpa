@@ -426,14 +426,22 @@ plot5 <- waffle(parts2, rows = 8, size = 1, colors = c("#000000", "#EE0000", "#F
 # starting point are data frames 'b' and 'c'
 # first calculated mean and standard deviation, then you’ll use those mean to construct the graphs
 
+
 b %>%
     filter(consecutive=="consecutive") %>%
     filter(num_medco > 1) %>%
     summarize(avg_num_medco_assignment = mean(num_medco), sd = sd(num_medco))
 
+#avg_num_medco_assignment        sd
+#1                 2.488636 0.8840128
 
 c %>%
     summarize(avg_num_medco_assignment = mean(num_medco), sd = sd(num_medco))
+
+#avg_num_medco_assignment       sd
+#1                 4.151786 2.428101
+
+
 
 # create overlap_df data frame
 consecutive_set <- data.frame(type = "consecutive", num_medco = rnorm(n=88, mean = 2.488636, sd = 0.8840128))
@@ -449,5 +457,24 @@ plot6 <- ggplot(overlap_df, aes(x=num_medco, fill=type))
 + labs(x = "Number of Medco Assignments", y = "Number of People", title = "Differences in Number of MedCo Assignments", fill = "MedCo Assignments") 
 + xlim(0,15)
 
+# t-test
+t.test(num_medco ~ type, data = overlap_df)
 
+### PLOT6b
+
+# starting point are data frames 'b' and 'c'
+# calculate mean and standard deviation
+
+# create overlap_df_b data frame
+consecutive_set_b <- data.frame(type = "consecutive", total_num_assign = rnorm(n=88, mean = 6.579545, sd = 3.737728))
+non_consecutive_set_b <- data.frame(type = "non-consecutive", total_num_assign = rnorm(n=112, mean = 13.41964, sd = 7.352928))
+overlap_df_b <- rbind(consecutive_set_b, non_consecutive_set_b)
+
+# plot
+plot6b <- ggplot(data = overlap_df_b, mapping = aes(x=total_num_assign, fill=type)) 
++ geom_histogram(alpha = .8, binwidth = 1, position = "identity") 
++ theme_classic() 
++ scale_fill_manual(labels=c("Consecutive", "Non-Consecutive (Gap)"), values = c("#EE0000", "#000000")) 
++ xlim(0,30) 
++ labs(x = "Number of Assignments", y = "Number of People", title = "Differences in Number of (Total) Assignments", fill = "MedCo Pattern")
 
