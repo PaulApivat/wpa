@@ -159,6 +159,7 @@ c <- b[is.na(b$consecutive),]
 
 
 #########-------------- PLOT(s)-------------- ############
+#### Description of Assignments, Number of People
 
 # temp: tally number of assignments in each pool
 temp <- df %>%
@@ -235,3 +236,45 @@ plot4 <- ggplot(data = num_medco_by_people2, mapping = aes(x=num_medco, y=num_of
 + labs(x = "One vs More than one", y = "Number of People", fill = "MedCo Assignments") 
 + theme(panel.background = element_blank())
 
+#### Understanding Shortage: One-Timer vs Multi-Timers
+# plot7 (will return to plot5 and plot6)
+
+# starting point data frames ONLY ‘b’  (compared 1 medco, n=262, vs >1 medco, n=200)
+# first calculated mean and standard deviation, then you’ll use those mean to construct the graphs
+
+# b (n = 262) those who did only one medco
+
+b %>% 
+    filter(num_medco==1) %>%
+    summarize(avg_position_first_medco = mean(assign_num_first_medco), sd = sd(assign_num_first_medco))
+
+  avg_position_first_medco       sd
+1                 4.381679 	3.678576
+
+# b (n = 200) those who did more than one medco
+b %>%
+    filter(num_medco > 1) %>%
+    summarize(avg_position_first_medco = mean(assign_num_first_medco), sd = sd(assign_num_first_medco))
+
+avg_position_first_medco       sd
+1                    4.895 		3.944843
+
+# create two dataframe, then use rbind() as precursor
+# distributions generated from rnorm() which uses *actual* means and standard deviations to simulate random variate under normal distribution
+one_medco <- data.frame(type = "one_medco", assign_num_first_medco = rnorm(n=262, mean = 4.381679, sd = 3.678576))
+more_than_one_medco <- data.frame(type = "more_than_one_medco", assign_num_first_medco = rnorm(n=200, mean = 4.895, sd = 3.944843))
+overlap2_df <- rbind(one_medco, more_than_one_medco)
+
+# plot7
+plot7 <- ggplot(data = overlap2_df, mapping = aes(x=assign_num_first_medco, fill=type)) 
++ geom_histogram(alpha = .8, binwidth = .5, position = "identity") 
++ theme_classic() 
++ scale_fill_manual(labels=c("One", "More than one"), values = c("#e9222a", "#6c6c6c")) 
++ xlim(0,15) 
++ ylim(0,15) 
++ labs(x = "Average Position of First Medco Assignments", y = "Number of People", title = "Difference in Average Position of First Medco", fill = "Number of MedCo")
+
+# Walch Two Sample t-test (not significantly different)
+t.test(assign_num_first_medco ~ type, data = overlap2_df)
+
+### plot7a 
