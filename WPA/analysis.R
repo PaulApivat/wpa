@@ -46,4 +46,50 @@ assign_first_medco <- distinct(df_medco_join, staff_id, .keep_all = TRUE)
 assign_first_medco <- assign_first_medco %>%
     mutate(assign_num_first_medco = assignment_number)
 
+# create column for assignment number of LAST MedCo
+# there's probably a faster way; this is just a way I hacked together
+
+# step 1 (base R)
+# subset dataframe to x (n = 946)
+# use rev() for the first time to reverse order
+x <- data.frame("rev_staff_id" = df_medco_join$staff_id, "rev_assign_num" = df_medco_join$assignment_number)
+x$rev_staff_id <- rev(x$rev_staff_id)
+x$rev_assign_num <- rev(x$rev_assign_num)
+
+# step 2 subset further to get only unique staff_id
+# at this point, larger staff_id numbers facing up
+y <- distinct(x, rev_staff_id, .keep_all = TRUE)
+
+# step 3 use rev() AGAIN to reverse BACK 
+# so smaller  staff_id numbers facing up
+y$rev_staff_id <- rev(y$rev_staff_id)
+y$rev_assign_num <- rev(y$rev_assign_num)
+
+# change column names before performing inner_join
+colnames(y)[1] <- "staff_id"
+colnames(y)[2] <- "assign_num_last_medco"
+
+
+
+#------------------------------- ggplot2 way slightly easier
+reverse_staff <- df_medco_join %>%
+    select(staff_id, assignment_number)
+
+# use rev() to reverse both staff_id and assignment_number 
+# so assignment number of last medco is facing toward the top
+reverse_staff$staff_id <- rev(reverse_staff$staff_id)
+reverse_staff$assignment_number <- rev(reverse_staff$assignment_number)
+
+# get only distinct staff_id (n = 462)
+# time time assignment number of last medco is facing toward the top
+reverse_staff <- distinct(reverse_staff, staff_id, .keep_all = TRUE)
+
+# use rev() AGAIN to reverse BACK
+reverse_staff$staff_id <- rev(reverse_staff$staff_id)
+reverse_staff$assignment_number <- rev(reverse_staff$assignment_number)
+
+# change column name of only assignment_number column
+colnames(reverse_staff)[2] <- 'assign_num_last_medco'
+
+# ---------------------
 
