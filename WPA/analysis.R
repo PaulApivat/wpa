@@ -410,3 +410,14 @@ b_mod %>% filter(first_departure=="First departure, relevant experience") %>% ge
 # r = 0.2270808
 b_mod %>% filter(first_departure=="Not first departure") %>% get_correlation(formula = num_medco ~ assign_num_first_medco)
 
+##### Understanding Gaps: Consecutive vs Non-Consecutive
+library(waffle)
+# count one-timer vs multi-timer (consecutive & non-consecutive)
+# note: backticks
+parts2 <- c(`One assignment` = (462-88-112), `Consecutive assignments` = 88, `Non-consecutive assignments` = 112)
+waffle(parts2, rows = 8, size = 1, colors = c("#000000", "#EE0000", "#FF9393"), legend_pos = "bottom")
+
+plot5 <- waffle(parts2, rows = 8, size = 1, colors = c("#000000", "#EE0000", "#FF9393"), legend_pos = "bottom")
+
+
+
