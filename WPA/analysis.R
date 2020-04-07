@@ -412,12 +412,42 @@ b_mod %>% filter(first_departure=="Not first departure") %>% get_correlation(for
 
 ##### Understanding Gaps: Consecutive vs Non-Consecutive
 library(waffle)
+
+### PLOT5
 # count one-timer vs multi-timer (consecutive & non-consecutive)
 # note: backticks
 parts2 <- c(`One assignment` = (462-88-112), `Consecutive assignments` = 88, `Non-consecutive assignments` = 112)
 waffle(parts2, rows = 8, size = 1, colors = c("#000000", "#EE0000", "#FF9393"), legend_pos = "bottom")
 
 plot5 <- waffle(parts2, rows = 8, size = 1, colors = c("#000000", "#EE0000", "#FF9393"), legend_pos = "bottom")
+
+### PLOT6
+# examine if there are differences in "total number of MedCo assignments" between 'consecutive' vs. 'non-consecutive'
+# starting point are data frames 'b' and 'c'
+# first calculated mean and standard deviation, then you’ll use those mean to construct the graphs
+
+b %>%
+    filter(consecutive=="consecutive") %>%
+    filter(num_medco > 1) %>%
+    summarize(avg_num_medco_assignment = mean(num_medco), sd = sd(num_medco))
+
+
+c %>%
+    summarize(avg_num_medco_assignment = mean(num_medco), sd = sd(num_medco))
+
+# create overlap_df data frame
+consecutive_set <- data.frame(type = "consecutive", num_medco = rnorm(n=88, mean = 2.488636, sd = 0.8840128))
+non_consecutive_set <- data.frame(type = "non-consecutive", num_medco = rnorm(n=112, mean = 4.151786, sd = 2.428101))
+
+overlap_df <- rbind(consecutive_set, non_consecutive_set)
+
+# plot
+plot6 <- ggplot(overlap_df, aes(x=num_medco, fill=type)) 
++ geom_histogram(alpha = .8, binwidth = .5, position = "identity") 
++ theme_classic() 
++ scale_fill_manual(labels=c("Consecutive", "Non-Consecutive (Gap)"), values = c("#EE0000", "#000000")) 
++ labs(x = "Number of Medco Assignments", y = "Number of People", title = "Differences in Number of MedCo Assignments", fill = "MedCo Assignments") 
++ xlim(0,15)
 
 
 
