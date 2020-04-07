@@ -176,5 +176,46 @@ plot <- ggplot(data = temp, mapping = aes(x=reorder(pool,n), y=n, fill = if_else
 + scale_fill_manual(values = c("#6c6c6c", "#e9222a")) 
 + theme(panel.background = element_blank())
 
+# plot2
+# side-by-side bar chart of Number of Assignments and Number of People per each Pool
 
+temp2 <- temp
+
+# find number of people for EACH pool (manual process)
+df %>%
+    filter(pool=="MIDWIFE") %>%      # repeat for ALL pool categories 
+    summarise(num_people = n_distinct(staff_id))
+
+# add new column to temp2 to store 'num_people' with 11 observations (see above)
+temp2[,"num_people"] <- c(4186, 1511, 1657, 1582, 1985, 1947, 1328, 462, 414, 246, 139)
+temp3 <- select(temp2, 'pool', 'num_assignments', 'num_people')
+
+# use rehape package to melt
+temp4 <- melt(temp3, id.vars = 'pool')
+
+plot2 <- ggplot(data = temp4, mapping = aes(x=reorder(pool, value), y=value, fill=variable)) 
++ geom_bar(stat = "identity", position = "dodge") 
++ labs(x="Pool", y = "Numbers", title = "Assignments and People", fill = "Variables") 
++ scale_fill_manual(labels=c("Number of Assignments", "Number of People"), values = c("#6c6c6c", "#e9222a")) 
++ theme(panel.background = element_blank())
+
+# plot3
+# create data frame listing frequency of medco assignments (1-15) and how many people per frequency
+num_medco_by_people <- all_assignment_join %>%
+    group_by(num_medco) %>%
+    tally(sort = TRUE)
+
+# change column name to num_of_people
+colnames(num_medco_by_people)[2] <- "num_of_people"
+
+# create new column with factor levels 
+num_medco_by_people[,"num_medco_factor"] <- factor(c("one", "more than one", "more than one", "more than one", "more than one", "more than one", "more than one", "more than one", "more than one", "more than one", "more than one", "more than one"), levels = c("one", "more than one"))
+
+# plot3
+plot3 <- ggplot(data = num_medco_by_people, mapping = aes(x=num_medco, y=num_of_people, fill=num_medco_factor)) 
++ geom_col() 
++ geom_text(aes(label = num_of_people), vjust = -1.0) 
++ scale_fill_manual(values = c("#e9222a", "#6c6c6c")) 
++ labs(x = "Number of Medco Assignments", y = "Number of People", fill = "MedCo Assignments") 
++ theme(panel.background = element_blank())
 
