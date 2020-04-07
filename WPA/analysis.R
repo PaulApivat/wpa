@@ -318,4 +318,43 @@ plot7a <- ggplot(data = overlap2_df_a, mapping = aes(x=total_num_assign, fill=ty
 # t.test (significant difference e in average number of (total) assignments)
 t.test(total_num_assign ~ type, data = overlap2_df_a)
 
+# plot7b
+
+## The correct calculation for this graph starts with data frame “a” because we want to account for ALL Medco assignments
+# first create diff_date for 'a' using difftime() to find difference between two dates
+a$diff_date <- difftime(a$return_date, a$departure_date, units = c('days'))
+
+# n = 262 (only one-timers)
+a %>%
+    filter(num_medco==1) %>%
+    filter(pool=="MEDCO") %>%
+    summarize(average_length_medco = mean(diff_date), sd = sd(diff_date))
+
+  average_length_medco       sd
+1        267.6908 days 	263.7288
+
+# n = 684 (staffers go on more than one MedCo)
+a %>%
+    filter(num_medco > 1) %>%
+    filter(pool=="MEDCO") %>%
+    summarize(average_length_medco = mean(diff_date), sd = sd(diff_date))
+
+  average_length_medco       sd
+1        206.0249 days 	226.0477
+
+
+# create two dataframe, then use rbind() as precursor
+
+one_medco_b <- data.frame(type = "one_medco", diff_date = rnorm(n=262, mean = 229.084, sd = 239.6649))
+more_than_one_medco_b <- data.frame(type = "more_than_one_medco", diff_date = rnorm(n=200, mean = 190.3, sd = 136.8582))
+overlap2_df_b <- rbind(one_medco_b, more_than_one_medco_b)
+
+# plot 7b
+plot7b <- ggplot(data = overlap2_df_b, mapping = aes(x=diff_date, fill=type)) 
++ geom_histogram(alpha = .8, binwidth = 25, position = "identity") 
++ theme_classic() 
++ scale_fill_manual(labels=c("One", "More than one"), values = c("#e9222a", "#6c6c6c")) 
++ xlim(0,1000) 
++ ylim(0,40) 
++ labs(x = "Length of MedCo Assignments", y = "Number of People", title = "Difference in Average Length of MedCo Assignments", fill = "Number of MedCo")
 
