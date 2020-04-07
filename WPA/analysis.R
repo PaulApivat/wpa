@@ -541,3 +541,191 @@ plot8b <- ggplot(before_medco_df_b, aes(fill=pool, y=n, x=assignment_number))
 + labs(x = "Assignment Number", y = "Percentage", title = "Pools represented in first four assignments before first MedCo", fill = "Pools") 
 + theme_classic()
 
+###### SANKEY ######
+## note: if the average assignment number of the 1st MedCo is 5, what did people do on assignments 1 through 4
+
+# start with data frame “a”, filter for those who had first MedCo on fifth assignment, filter for assignments 1-4
+sankey5 <- a %>% 
+    filter(assign_num_first_medco==5) %>% 
+    filter(assignment_number < 5)
+
+# filter for each assignment, then paste into new data frame resulting in side by side column(s) of pool, each representing a different assignment
+sankey5 %>%
+    filter(assignment_number==1) %>%
+    select(staff_id, pool) -> sankey1
+
+
+sankey5 %>%
+    filter(assignment_number==2) %>%
+    select(pool) -> sankey1$pool2
+
+
+sankey5 %>%
+    filter(assignment_number==3) %>%
+    select(pool) -> sankey1$pool3
+
+
+sankey5 %>%
+    filter(assignment_number==4) %>%
+    select(pool) -> sankey1$pool4
+
+# without having to change column name later
+sankey5 %>%
+    filter(assignment_number==5) %>%
+    select(pool) -> sankey1[,"assignment_5"]
+
+# change column names
+
+colnames(sankey1)[2] <- "assignment_1"
+colnames(sankey1)[3] <- "assignment_2"
+colnames(sankey1)[4] <- "assignment_3"
+colnames(sankey1)[5] <- "assignment_4"
+
+#note: columns 3-5 are “data.frames” for some reason
+#changing from data frame to character (temporary solution)
+
+sankey1$assignment_2 <- as.vector(unlist(sankey1['assignment_2']))
+sankey1$assignment_3 <- as.vector(unlist(sankey1['assignment_3']))
+sankey1$assignment_4 <- as.vector(unlist(sankey1['assignment_4']))
+
+#### IMPORTANT: add string of number to vectors— THIS WAS KEY
+
+#source: https://stackoverflow.com/questions/6984796/how-to-paste-a-string-on-each-element-of-a-vector-of-strings-using-apply-in-r
+sankey1$assignment_2 <- paste(sankey1$assignment_2, "2", sep = "")
+sankey1$assignment_3 <- paste(sankey1$assignment_3, "3", sep = "")
+sankey1$assignment_4 <- paste(sankey1$assignment_4, "4", sep = "")
+
+# turn characters into factors in order to use group_by() and tally() functions
+#source: https://stackoverflow.com/questions/20637360/convert-all-data-frame-character-columns-to-factors
+
+sankey1$assignment_2 <- as.factor(sankey1$assignment_2)
+sankey1$assignment_3 <- as.factor(sankey1$assignment_3)
+sankey1$assignment_4 <- as.factor(sankey1$assignment_4)
+
+# mixture of using group_by() and tally() plus manually creating a new data frame for Sankey diagram
+
+# assignment 1 -> 2 (save to links1)
+sankey1 %>%
+    group_by(assignment_1, assignment_2) %>%
+    tally(sort = TRUE) -> links1
+
+# assignment 2 -> 3 (links2)
+sankey1 %>%
+    group_by(assignment_2, assignment_3) %>%
+    tally(sort = TRUE) -> links2
+
+# assignment 3 -> 4 (links3)
+sankey1 %>%
+    group_by(assignment_3, assignment_4) %>%
+    tally(sort = TRUE) -> links3
+
+# assignment 4 -> 5 (links4)
+sankey1 %>%
+    group_by(assignment_4, assignment_5) %>%
+    tally(sort = TRUE) -> links4
+
+# change column names for links1, links2, links3, link4
+
+colnames(links1)[1] <- "source"
+colnames(links1)[2] <- "target"
+colnames(links1)[3] <- "value"
+
+colnames(links2)[1] <- "source"
+colnames(links2)[2] <- "target"
+colnames(links2)[3] <- "value"
+
+colnames(links3)[1] <- "source"
+colnames(links3)[2] <- "target"
+colnames(links3)[3] <- "value"
+
+colnames(links4)[1] <- "source"
+colnames(links4)[2] <- "target"
+colnames(links4)[3] <- "value"
+
+# create a node data frame, listing all entities involved in the flow
+
+nodes1 <- data.frame(name=c(as.character(links1$source), as.character(links1$target)) %>% unique())
+nodes2 <- data.frame(name=c(as.character(links2$source), as.character(links2$target)) %>% unique())
+nodes3 <- data.frame(name=c(as.character(links3$source), as.character(links3$target)) %>% unique())
+nodes4 <- data.frame(name=c(as.character(links4$source), as.character(links4$target)) %>% unique())
+
+# with network3D , connection must be provided using ID, so need to reformat
+
+links1$IDsource <- match(links1$source, nodes1$name)-1
+links1$IDtarget <- match(links1$target, nodes1$name)-1
+
+links2$IDsource <- match(links2$source, nodes2$name)-1
+links2$IDtarget <- match(links2$target, nodes2$name)-1
+
+links3$IDsource <- match(links3$source, nodes3$name)-1
+links3$IDtarget <- match(links3$target, nodes3$name)-1
+
+links4$IDsource <- match(links4$source, nodes4$name)-1
+links4$IDtarget <- match(links4$target, nodes4$name)-1
+
+# plot sankey diagram
+
+p1 <- sankeyNetwork(Links = links1, Nodes = nodes1, Source = "IDsource", Target = "IDtarget", Value = "value", NodeID = "name", sinksRight = FALSE)
+p2 <- sankeyNetwork(Links = links2, Nodes = nodes2, Source = "IDsource", Target = "IDtarget", Value = "value", NodeID = "name", sinksRight = FALSE)
+p3 <- sankeyNetwork(Links = links3, Nodes = nodes3, Source = "IDsource", Target = "IDtarget", Value = "value", NodeID = "name", sinksRight = FALSE)
+p4 <- sankeyNetwork(Links = links4, Nodes = nodes4, Source = "IDsource", Target = "IDtarget", Value = "value", NodeID = "name", sinksRight = FALSE)
+p5 <- sankeyNetwork(Links = links5, Nodes = nodes5, Source = "IDsource", Target = "IDtarget", Value = "value", NodeID = "name", sinksRight = FALSE)
+
+## next step: combine all Sankey into one ##
+
+# save rows into new data frames (should be able to do with ‘links1’ etc)
+
+one <- links1[1:16,]
+two <- links2[1:14,]
+three <- links3[1:18,]
+four <- links4[1:9,]
+
+# rbind to merge dataframe by rows
+
+links1_a <- bind_rows(one, two, three, four)
+
+links5 <- links1_a
+
+## need to re-create this, this cannot be copied from previous four data frames
+
+nodes5 <- data.frame(name=c(as.character(links5$source), as.character(links5$target)) %>% unique())
+
+### CUSTOMIZATION: Color each flow (Sankey Diagram)
+# source: https://www.r-graph-gallery.com/322-custom-colours-in-sankey-diagram.html
+
+# create new dataframe
+links6 <- links5
+nodes6 <- nodes5
+
+# classify each LINK into a ‘type’ and create a new column “group” (all 57 links must be classified)
+
+links6$group <- as.factor(c("md_type", "md_type", "md_type", "every_type", "every_type", "every_type", "every_type", "every_type", "md_type", "mtl_type", "mtl_type", "mtl_type", "every_type", "pc_type", "every_type", "every_type", "md_type", "pc_type", "md_type", "every_type", "every_type", "md_type", "mtl_type", "pc_type", "pc_type", "md_type", "mtl_type", "mtl_type", "nonmed_type", "every_type", "pc_type", "md_type", "pc_type", "pc_type", "md_type", "md_type", "mtl_type", "every_type", "every_type", "every_type", "md_type", "mtl_type", "every_type", "every_type", "pc_type", "every_type", "every_type", "every_type", "pc_type", "md_type", "mtl_type", "nonmed_type", "deputy_type", "every_type", "every_type", "every_type", "every_type"))
+
+# do the same thing for each NODE (in this case, i’ve decided all nodes will be the same color, emphasizing the color of flow instead); create new “group” column
+
+nodes6$group <- as.factor(c("my_unique_group"))
+
+# create color variable that matches each “type” (including node) with a “color”
+
+my_color <- 'd3.scaleOrdinal() .domain(["md_type", "pc_type", "mtl_type", "nonmed_type", "deputy_type", "every_type", "my_unique_group"]) .range(["#EE0000", "#FF4141", "#FF9393", "#FFE5E5", "#C0C0C0", "#DCDCDC", "#8B8989"])'
+
+##### Try out the different sankey flow colors
+
+# MD flow
+my_color_md <- 'd3.scaleOrdinal() .domain(["md_type", "pc_type", "mtl_type", "nonmed_type", "deputy_type", "every_type", "my_unique_group"]) .range(["#EE0000", "#DCDCDC", "#DCDCDC", "#DCDCDC", "#DCDCDC", "#DCDCDC", "#8B8989"])'
+
+# PC flow
+my_color_pc <- 'd3.scaleOrdinal() .domain(["md_type", "pc_type", "mtl_type", "nonmed_type", "deputy_type", "every_type", "my_unique_group"]) .range(["#DCDCDC", "#000000", "#DCDCDC", "#DCDCDC", "#DCDCDC", "#DCDCDC", "#8B8989"])'
+
+# MTL flow
+my_color_mtl <- 'd3.scaleOrdinal() .domain(["md_type", "pc_type", "mtl_type", "nonmed_type", "deputy_type", "every_type", "my_unique_group"]) .range(["#DCDCDC", "#DCDCDC", "#800000", "#DCDCDC", "#DCDCDC", "#DCDCDC", "#8B8989"])'
+
+# other flows
+my_color_every <- 'd3.scaleOrdinal() .domain(["md_type", "pc_type", "mtl_type", "nonmed_type", "deputy_type", "every_type", "my_unique_group"]) .range(["#DCDCDC", "#DCDCDC", "#DCDCDC", "#DCDCDC", "#DCDCDC", "#FF9393", "#8B8989"])'
+
+# Messy flow (includes everything) 
+my_color_2a <- 'd3.scaleOrdinal() .domain(["md_type", "pc_type", "mtl_type", "nonmed_type", "deputy_type", "every_type", "my_unique_group"]) .range(["#EE0000", "#000000", "#800000", "#00FF00", "#00BFFF", "#FF9393", "#8B8989"])'
+
+# SankeyNetwork function (change “colourScale” to see different flows)
+sankeyNetwork(Links = links6, Nodes = nodes6, Source = "IDsource", Target = "IDtarget", Value = "value", NodeID = "name", colourScale = my_color_2a, LinkGroup = "group", NodeGroup = "group")
+
