@@ -219,3 +219,19 @@ plot3 <- ggplot(data = num_medco_by_people, mapping = aes(x=num_medco, y=num_of_
 + labs(x = "Number of Medco Assignments", y = "Number of People", fill = "MedCo Assignments") 
 + theme(panel.background = element_blank())
 
+# plot4
+# remove/delete row from num_medco_by_people by subsetting
+# remove/delete rows 3-to-12 from num_medco_by_people
+num_medco_by_people2 <- num_medco_by_people[-c(3:12),]
+
+# change second observation in row 2 from 98 to 200
+num_medco_by_people2$num_of_people[2] <- 200
+
+
+# plot4
+plot4 <- ggplot(data = num_medco_by_people2, mapping = aes(x=num_medco, y=num_of_people, fill=num_medco_factor)) 
++ geom_col() 
++ scale_fill_manual(values = c("#e9222a", "#6c6c6c")) 
++ labs(x = "One vs More than one", y = "Number of People", fill = "MedCo Assignments") 
++ theme(panel.background = element_blank())
+
