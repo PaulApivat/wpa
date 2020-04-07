@@ -136,5 +136,24 @@ all_assignment_join2 <- all_assignment_join %>%
     select(staff_id, assign_num_first_medco, assign_num_last_medco, total_num_assign)
 
 # create new data frame (n = 3569) with all: num_medco, assign_num_first_medco, assign_num_last_medco, total_num_assign
+# all assignments for all staff_id who did at least one MedCo
 df_join_data <- left_join(df_join, all_assignment_join2, by = 'staff_id')
+
+#### Accounting for Gaps - Consecutive & Non-Consecutive MedCo Assignments ####
+
+# create dataframe a (n = 3569)
+# determine if a person did consecutive MedCo assignments
+a <- df_join_data
+a[,'consecutive'] <- NA 
+a$consecutive <- if_else(a$assign_num_last_medco-a$assign_num_first_medco==(a$num_medco-1), 'consecutive', NULL)
+
+
+# create dataframe b (n = 462)
+# only distinct staff_id
+b <- distinct(a, staff_id, .keep_all = TRUE)
+
+
+# create dataframe c (n = 112)
+# for all NON-consecutive
+c <- b[is.na(b$consecutive),]
 
