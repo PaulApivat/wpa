@@ -49,7 +49,9 @@ library(ltm)
 cor.test(b$sex, b$num_medco)  # base r regular correlation
 biserial.cor(b$sex,b$num_medco, level = 1)   # ltm package, point biserial corr
 
-# save 'b' to new dataframe
+# save 'b' to new dataframe: b_alt
+b_alt <- b
 
-
+# convert sex into numeric variable
+# re-run point biserial corr
 
