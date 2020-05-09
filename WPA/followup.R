@@ -41,6 +41,28 @@ get_correlation(data = b, age_bracket ~ total_num_assign, na.rm = FALSE)
 #          cor
 # -0.05038205
 
+## Try point biserial corr btwn age_bracket and num_medco
+## Error: age_bracket not dichotomous variable
+
+## pearson's product-moment correlation in base R same as ModernDive
+cor.test(b_alt$age_bracket, b_alt$num_medco, method = c('pearson'))
+# sample estimates:
+#        cor 
+# -0.02291633 
+
+# 95 percent confidence interval:
+# -0.11390711  0.06845571
+
+## total_num_assign
+cor.test(b_alt$age_bracket, b_alt$total_num_assign, method = c('pearson'))
+# sample estimates:
+#        cor 
+# -0.05038205 
+
+# 95 percent confidence interval:
+#  -0.14096306  0.04103549
+
+
 ### Run point-biserial correlation between sex and num_medco / total_num_assign
 # install new package
 library(ltm)
@@ -89,4 +111,19 @@ biserial.cor(b_alt$num_medco,b_alt$consecutive2, level = 1)
 # moderately high correlation (proving my point)
 biserial.cor(b_alt$total_num_assign,b_alt$consecutive2, level = 1)
 # [1] 0.5021832
+
+#### Basic scatter plots
+
+# gender
+ggplot(data = b_alt, mapping = aes(x=sex2, y=num_medco)) + geom_point() + geom_jitter()
+ggplot(data = b_alt, mapping = aes(x=sex2, y=total_num_assign)) + geom_point() + geom_jitter()
+
+# age bracket
+# NOTE: visual does seem to show that age of first assignment appears to matter
+ggplot(data = b_alt, mapping = aes(x=age_bracket, y=num_medco)) + geom_point() + geom_jitter()
+ggplot(data = b_alt, mapping = aes(x=age_bracket, y=total_num_assign)) + geom_point() + geom_jitter()
+
+# original point: consecutive status impact num_medco and total_num_assign
+ggplot(data = b_alt, mapping = aes(x=consecutive2, y=num_medco)) + geom_point() + geom_jitter()
+ggplot(data = b_alt, mapping = aes(x=consecutive2, y=total_num_assign)) + geom_point() + geom_jitter()
 
