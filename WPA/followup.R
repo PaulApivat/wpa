@@ -41,3 +41,15 @@ get_correlation(data = b, age_bracket ~ total_num_assign, na.rm = FALSE)
 #          cor
 # -0.05038205
 
+### Run point-biserial correlation between sex and num_medco / total_num_assign
+# install new package
+library(ltm)
+
+# ERROR: 'x' must be a numeric vector
+cor.test(b$sex, b$num_medco)  # base r regular correlation
+biserial.cor(b$sex,b$num_medco, level = 1)   # ltm package, point biserial corr
+
+# save 'b' to new dataframe
+
+
+
