@@ -3,6 +3,10 @@
 # RStudio version: 1.2.5033
 # R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night”
 
+### Update: May 9, 2020 ###
+# R version 3.6.3 (2020-02-29) -- "Holding the Windsock" 
+# RStudio version: 1.2.5042
+
 # Navigate and Load data
 #setwd("/Users/paulapivat/Desktop")
 #load(file = "finalsession.RData")
