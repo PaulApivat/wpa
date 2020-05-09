@@ -43,12 +43,15 @@ plot7 <- ggplot(data = overlap2_df, mapping = aes(x=assign_num_first_medco, fill
 ## source: http://tagteam.harvard.edu/hub_feeds/1981/feed_items/1011661
 ## NOTE: not easy to distinguish between two type
 
+# Back-to-Back
 # key is subset() and y=-..density..
 ggplot() 
     + geom_histogram(data = subset(overlap2_df, type=='one_medco'), aes(x=assign_num_first_medco, fill='one_medco', y=..density..), binwidth = diff(range(overlap2_df$assign_num_first_medco))/30, fill='blue') 
     + geom_histogram(data = subset(overlap2_df, type=='more_than_one_medco'), aes(x=assign_num_first_medco, fill='more_than_one_medco', y=-..density..), binwidth = diff(range(overlap2_df$assign_num_first_medco))/30, fill='green') 
     + scale_fill_hue('Type')
 
+# 90-degree rotation
++ coord_flip()
 
 
 
