@@ -16,13 +16,49 @@ library(networkD3)
 library(rmarkdown)
 library(tinytex)
 
+# new libraries
+library(ltm)
 
 
 ### Question 1:
 
+# prior context
+# create two dataframe, then use rbind() as precursor
+# distributions generated from rnorm() which uses *actual* means and standard deviations to simulate random variate under normal distribution
+one_medco <- data.frame(type = "one_medco", assign_num_first_medco = rnorm(n=262, mean = 4.381679, sd = 3.678576))
+more_than_one_medco <- data.frame(type = "more_than_one_medco", assign_num_first_medco = rnorm(n=200, mean = 4.895, sd = 3.944843))
+overlap2_df <- rbind(one_medco, more_than_one_medco)
+
+# plot7
+plot7 <- ggplot(data = overlap2_df, mapping = aes(x=assign_num_first_medco, fill=type)) 
++ geom_histogram(alpha = .8, binwidth = .5, position = "identity") 
++ theme_classic() 
++ scale_fill_manual(labels=c("One", "More than one"), values = c("#e9222a", "#6c6c6c")) 
++ xlim(0,15) 
++ ylim(0,15) 
++ labs(x = "Average Position of First Medco Assignments", y = "Number of People", title = "Difference in Average Position of First Medco", fill = "Number of MedCo")
+
+## ggplot() implementation of back-to-back histogram 
+## use existing overlap2_df
+## source: http://tagteam.harvard.edu/hub_feeds/1981/feed_items/1011661
+## NOTE: not easy to distinguish between two type
+
+# key is subset() and y=-..density..
+ggplot() 
+    + geom_histogram(data = subset(overlap2_df, type=='one_medco'), aes(x=assign_num_first_medco, fill='one_medco', y=..density..), binwidth = diff(range(overlap2_df$assign_num_first_medco))/30, fill='blue') 
+    + geom_histogram(data = subset(overlap2_df, type=='more_than_one_medco'), aes(x=assign_num_first_medco, fill='more_than_one_medco', y=-..density..), binwidth = diff(range(overlap2_df$assign_num_first_medco))/30, fill='green') 
+    + scale_fill_hue('Type')
+
+
+
+
 ### Question 2:
 
 ### Question 3: Causality
+
+# main data frames
+b
+b_alt
 
 # dataframe 'b' contain distinct staff_id (n = 462)
 # contain age_bracket individual belongs in 
