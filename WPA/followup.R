@@ -20,7 +20,7 @@ library(tinytex)
 library(ltm)
 
 
-### Question 1:
+### Question 1: HISTOGRAMS
 
 # prior context
 # create two dataframe, then use rbind() as precursor
@@ -120,11 +120,36 @@ ggplot()
 ## see also geom_freqpoly() but ignores 'fill' (warning: No colors)
 
 
+### Question 2: SANKEY DIAGRAMS
+
+#### Prior Context
+# start with data frame “a”, filter for those who had first MedCo on fifth assignment, filter for assignments 1-4
+# sankey5 has staff_id where assign_num_first_medco==5 and list assignment_number 1-4
+# assumption is medco is assignment_number==5 
+# avg position of people's first Medco is 5th assignment
+sankey5 <- a %>% 
+    filter(assign_num_first_medco==5) %>% 
+    filter(assignment_number < 5)
+
+### use sankey5 to create sankey1
+### use sankey1 to create links1, links2, links3, links4
+### use create corresponding nodes1, nodes2, nodes3, nodes4
+### INITIAL (separate) sankey plots p1, p2, p3, p4, p5
+### links5 and nodes5
+### links6 and nodes6 (color customization)
+
+
+### NOTE: 'value' (THICKNESS of sankey line) determined by:
+# repeated for assignment_1 -> assignment_2,
+# THEN assignment_2 -> assignment_3, 
+# THEN assignment_3 -> assignment_4,
+# THEN assignment_4 -> assignment_5,
+sankey1 %>%
+    group_by(assignment_1, assignment_2) %>%
+    tally(sort = TRUE)
 
 
 
-
-### Question 2:
 
 ### Question 3: Causality
 
