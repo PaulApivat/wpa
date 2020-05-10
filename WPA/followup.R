@@ -86,11 +86,13 @@ ggplot()
 + coord_flip()
 
 
-#### Alternative plot6b
+#### Alternative plot6b (see overlap_df_b)
+# Note: xlim(0,17)
 ggplot() 
     + geom_histogram(data = subset(overlap_df_b, type=='consecutive'), aes(x=total_num_assign, fill='consecutive', y=..density..), binwidth = diff(range(overlap_df_b$total_num_assign))/30, fill='gray') 
     + geom_histogram(data = subset(overlap_df_b, type=='non-consecutive'), aes(x=total_num_assign, fill='non-consecutive', y=-..density..), binwidth = diff(range(overlap_df_b$total_num_assign))/30, fill='green') 
     + scale_fill_hue('Type')
+    + xlim(0,17)
 
 # 90-degree rotation
 + coord_flip()
