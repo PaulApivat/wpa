@@ -43,8 +43,12 @@ plot7 <- ggplot(data = overlap2_df, mapping = aes(x=assign_num_first_medco, fill
 ## source: http://tagteam.harvard.edu/hub_feeds/1981/feed_items/1011661
 ## NOTE: not easy to distinguish between two type
 
-# Back-to-Back
+############ -------- Back-to-Back HISTOGRAMS  ---------- #############
+############ -------- 90 Degree HISTOGRAMS  ---------- #############
+## NOTE: need to set the y-axis limit (i.e., a negative assign_num_first_medco OR total_num_assign does NOT make sense)
 # key is subset() and y=-..density..
+
+#### Alternative plot7
 ggplot() 
     + geom_histogram(data = subset(overlap2_df, type=='one_medco'), aes(x=assign_num_first_medco, fill='one_medco', y=..density..), binwidth = diff(range(overlap2_df$assign_num_first_medco))/30, fill='blue') 
     + geom_histogram(data = subset(overlap2_df, type=='more_than_one_medco'), aes(x=assign_num_first_medco, fill='more_than_one_medco', y=-..density..), binwidth = diff(range(overlap2_df$assign_num_first_medco))/30, fill='green') 
@@ -53,6 +57,20 @@ ggplot()
 # 90-degree rotation
 + coord_flip()
 
+#### Alternative plot7a
+ggplot() 
+    + geom_histogram(data = subset(overlap2_df_a, type=='one_medco'), aes(x=total_num_assign, fill='one_medco', y=..density..), binwidth = diff(range(overlap2_df$assign_num_first_medco))/30, fill='orange') 
+    + geom_histogram(data = subset(overlap2_df_a, type=='more_than_one_medco'), aes(x=total_num_assign, fill='more_than_one_medco', y=-..density..), binwidth = diff(range(overlap2_df$assign_num_first_medco))/30, fill='green') 
+    + scale_fill_hue('Type')
+
+# 90-degree rotation
++ coord_flip()
+
+
+#### Alternative plot7b
+#### Alternative plot6
+#### Alternative plot6b
+#### Alternative plot6a
 
 
 ### Question 2:
