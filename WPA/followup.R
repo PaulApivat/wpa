@@ -148,43 +148,50 @@ sankey1 %>%
     group_by(assignment_1, assignment_2) %>%
     tally(sort = TRUE)
 
-## next step take links6 (and nodes6) re-arrange by descending order of 'value'
-## re-plug into sankeyNetwork() of network3D
+## Best way to communicate COMMONALITY of career path is to use colors to convey popular paths
+## well travel paths are denoted by "value" in the links data frame
+## instead of color being matched to group-type, create color scheme to match group-value
+## instead of having 10 colors, just have 5 - easier to communicate (i.e., paths of values 1-2 are grouped together under 'whitesmoke')
+## cannot simply arrange by desc(value) becauses the flows get sorted out of place (flows links6_alt are OUT of order)
 
 links6_alt <- links6 %>%
 + arrange(desc(value))
 
-## change group column from 'type-based' to 'value-based' (goes from 6 -> 10 clusters)
-links6_alt$group <- ifelse(links6_alt$value==13, 'thirteen', links6_alt$group)
-links6_alt$group <- ifelse(links6_alt$value==12, 'twelve', links6_alt$group)
-links6_alt$group <- ifelse(links6_alt$value==9, 'nine', links6_alt$group)
-links6_alt$group <- ifelse(links6_alt$value==7, 'seven', links6_alt$group)
-links6_alt$group <- ifelse(links6_alt$value==6, 'six', links6_alt$group)
-links6_alt$group <- ifelse(links6_alt$value==5, 'five', links6_alt$group)
-links6_alt$group <- ifelse(links6_alt$value==4, 'four', links6_alt$group)
-links6_alt$group <- ifelse(links6_alt$value==3, 'three', links6_alt$group)
-links6_alt$group <- ifelse(links6_alt$value==2, 'two', links6_alt$group)
-links6_alt$group <- ifelse(links6_alt$value==1, 'one', links6_alt$group)
+# instead do
+links6_alt <- links6
+
+
+## change group column from 'type-based' to 'value-based' (goes from 6 -> 5 clusters)
+links6_alt$group <- ifelse(links6_alt$value==13, 'level5', links6_alt$group)
+links6_alt$group <- ifelse(links6_alt$value==12, 'level5', links6_alt$group)
+links6_alt$group <- ifelse(links6_alt$value==9, 'level4', links6_alt$group)
+links6_alt$group <- ifelse(links6_alt$value==7, 'level4', links6_alt$group)
+links6_alt$group <- ifelse(links6_alt$value==6, 'level3', links6_alt$group)
+links6_alt$group <- ifelse(links6_alt$value==5, 'level3', links6_alt$group)
+links6_alt$group <- ifelse(links6_alt$value==4, 'level2', links6_alt$group)
+links6_alt$group <- ifelse(links6_alt$value==3, 'level2', links6_alt$group)
+links6_alt$group <- ifelse(links6_alt$value==2, 'level1', links6_alt$group)
+links6_alt$group <- ifelse(links6_alt$value==1, 'level1', links6_alt$group)
+
 
 
 # need to create new color scheme gradient by VALUE
 # create new color gradient based on value, NOT 'type' (i.e., pc, md, mtl, nonmed) or source 
 
-# Colors based on value (colorbrewer2.org - sequential multi-hue 9-class GnBn)
-my_color_alt <- 'd3.scaleOrdinal() .domain(["thirteen", "twelve", "nine", "seven", "six", "five", "four", "three", "two", "one", "my_unique_group"]) .range(["#084081", "#0868ac", "#2b8cbe", "#4eb3d3", "#7bccc4", "#a8ddb5", "#ccebc5", "#e0f3db", "#f7fcf0", "white", "#8B8989"])'
+# Colors based on value (colorbrewer2.org - sequential multi-hue 5-class BuGn)
+## Use GREEN to contrast with original plots that are using 'on-brand' colors
+my_color_alt <- 'd3.scaleOrdinal() .domain(["level5", "level4", "level3", "level2", "level1", "my_unique_group"]) .range(["#006d2c", "#2ca25f", "#66c2a4", "#b2e2e2", "#edf8fb", "#8B8989"])'
 
-# Divergent Colors based on value (colorbrewer2.org) - divergent 10-class RdGy
-my_color_alt_a <- 'd3.scaleOrdinal() .domain(["thirteen", "twelve", "nine", "seven", "six", "five", "four", "three", "two", "one", "my_unique_group"]) .range(["#67001f", "#b2182b", "#d6604d", "#f4a582", "#fddbc7", "#e0e0e0", "#bababa", "#878787", "#4d4d4d", "#1a1a1a", "white"])'
 
-#### TRY cutting flows with value==1 (too idiosyncratic, not conducive to representing COMMON CAREER PATHS)
-links6_cut <- links6_alt
-links6_cut <- links6_cut[-c(29:57),]
-######### Did not work well ####################
+## NEW sankey common career paths sequentially organized by color with 5-shades to minimize cognitive load
+# note retain nodes6
+sankeyNetwork(Links = links6_alt, Nodes = nodes6, Source = "IDsource", Target = "IDtarget", Value = "value", NodeID = "name", colourScale = my_color_alt, LinkGroup = "group", NodeGroup = "group")
+
 
 ## Try setting iterations = 0 and re-ordering nodes6
 ## source: https://stackoverflow.com/questions/52229334/fixing-the-order-of-a-sankey-flow-graph-in-r-networkd3-package
 
-
+sankeyNetwork(Links = links6_alt, Nodes = nodes6, Source = "IDsource", Target = "IDtarget", Value = "value", NodeID = "name", colourScale = my_color_alt, LinkGroup = "group", NodeGroup = "group", iterations = 0)
 
 
 
