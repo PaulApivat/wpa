@@ -41,6 +41,7 @@ plot7 <- ggplot(data = overlap2_df, mapping = aes(x=assign_num_first_medco, fill
 ## ggplot() implementation of back-to-back histogram 
 ## use existing overlap2_df
 ## source: http://tagteam.harvard.edu/hub_feeds/1981/feed_items/1011661
+## source: https://www.r-bloggers.com/making-back-to-back-histograms/
 ## NOTE: not easy to distinguish between two type
 
 ############ -------- Back-to-Back HISTOGRAMS  ---------- #############
