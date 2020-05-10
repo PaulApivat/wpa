@@ -176,6 +176,16 @@ my_color_alt <- 'd3.scaleOrdinal() .domain(["thirteen", "twelve", "nine", "seven
 # Divergent Colors based on value (colorbrewer2.org) - divergent 10-class RdGy
 my_color_alt_a <- 'd3.scaleOrdinal() .domain(["thirteen", "twelve", "nine", "seven", "six", "five", "four", "three", "two", "one", "my_unique_group"]) .range(["#67001f", "#b2182b", "#d6604d", "#f4a582", "#fddbc7", "#e0e0e0", "#bababa", "#878787", "#4d4d4d", "#1a1a1a", "white"])'
 
+#### TRY cutting flows with value==1 (too idiosyncratic, not conducive to representing COMMON CAREER PATHS)
+links6_cut <- links6_alt
+links6_cut <- links6_cut[-c(29:57),]
+######### Did not work well ####################
+
+## Try setting iterations = 0 and re-ordering nodes6
+## source: https://stackoverflow.com/questions/52229334/fixing-the-order-of-a-sankey-flow-graph-in-r-networkd3-package
+
+
+
 
 
 ## Then try Arc Diagram
