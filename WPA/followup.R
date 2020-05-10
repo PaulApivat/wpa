@@ -59,8 +59,8 @@ ggplot()
 
 #### Alternative plot7a
 ggplot() 
-    + geom_histogram(data = subset(overlap2_df_a, type=='one_medco'), aes(x=total_num_assign, fill='one_medco', y=..density..), binwidth = diff(range(overlap2_df$assign_num_first_medco))/30, fill='orange') 
-    + geom_histogram(data = subset(overlap2_df_a, type=='more_than_one_medco'), aes(x=total_num_assign, fill='more_than_one_medco', y=-..density..), binwidth = diff(range(overlap2_df$assign_num_first_medco))/30, fill='green') 
+    + geom_histogram(data = subset(overlap2_df_a, type=='one_medco'), aes(x=total_num_assign, fill='one_medco', y=..density..), binwidth = diff(range(overlap2_df_a$total_num_assign))/30, fill='orange') 
+    + geom_histogram(data = subset(overlap2_df_a, type=='more_than_one_medco'), aes(x=total_num_assign, fill='more_than_one_medco', y=-..density..), binwidth = diff(range(overlap2_df_a$total_num_assign))/30, fill='green') 
     + scale_fill_hue('Type')
 
 # 90-degree rotation
@@ -68,6 +68,14 @@ ggplot()
 
 
 #### Alternative plot7b
+ggplot() 
+    + geom_histogram(data = subset(overlap2_df_b, type=='one_medco'), aes(x=diff_date, fill='one_medco', y=..density..), binwidth = diff(range(overlap2_df_b$diff_date))/30, fill='purple') 
+    + geom_histogram(data = subset(overlap2_df_b, type=='more_than_one_medco'), aes(x=diff_date, fill='more_than_one_medco', y=-..density..), binwidth = diff(range(overlap2_df_b$diff_date))/30, fill='green') 
+    + scale_fill_hue('Type')
+
+# 90-degree rotation
++ coord_flip()
+
 #### Alternative plot6
 #### Alternative plot6b
 #### Alternative plot6a
