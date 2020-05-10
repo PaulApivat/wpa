@@ -148,6 +148,36 @@ sankey1 %>%
     group_by(assignment_1, assignment_2) %>%
     tally(sort = TRUE)
 
+## next step take links6 (and nodes6) re-arrange by descending order of 'value'
+## re-plug into sankeyNetwork() of network3D
+
+links6_alt <- links6 %>%
++ arrange(desc(value))
+
+## change group column from 'type-based' to 'value-based'
+links6_alt$group <- ifelse(links6_alt$value==13, 'thirteen', links6_alt$group)
+links6_alt$group <- ifelse(links6_alt$value==12, 'twelve', links6_alt$group)
+links6_alt$group <- ifelse(links6_alt$value==9, 'nine', links6_alt$group)
+links6_alt$group <- ifelse(links6_alt$value==7, 'seven', links6_alt$group)
+links6_alt$group <- ifelse(links6_alt$value==6, 'six', links6_alt$group)
+links6_alt$group <- ifelse(links6_alt$value==5, 'five', links6_alt$group)
+links6_alt$group <- ifelse(links6_alt$value==4, 'four', links6_alt$group)
+links6_alt$group <- ifelse(links6_alt$value==3, 'three', links6_alt$group)
+links6_alt$group <- ifelse(links6_alt$value==2, 'two', links6_alt$group)
+links6_alt$group <- ifelse(links6_alt$value==1, 'one', links6_alt$group)
+
+
+# need to create new color scheme gradient by VALUE
+# create new color gradient based on value, NOT 'type' (i.e., pc, md, mtl, nonmed) or source 
+
+
+
+
+
+## Then try Arc Diagram
+## Arc Diagram source: https://www.r-bloggers.com/arc-diagrams-in-r-les-miserables/
+
+
 
 
 
