@@ -154,7 +154,7 @@ sankey1 %>%
 links6_alt <- links6 %>%
 + arrange(desc(value))
 
-## change group column from 'type-based' to 'value-based'
+## change group column from 'type-based' to 'value-based' (goes from 6 -> 10 clusters)
 links6_alt$group <- ifelse(links6_alt$value==13, 'thirteen', links6_alt$group)
 links6_alt$group <- ifelse(links6_alt$value==12, 'twelve', links6_alt$group)
 links6_alt$group <- ifelse(links6_alt$value==9, 'nine', links6_alt$group)
@@ -170,7 +170,11 @@ links6_alt$group <- ifelse(links6_alt$value==1, 'one', links6_alt$group)
 # need to create new color scheme gradient by VALUE
 # create new color gradient based on value, NOT 'type' (i.e., pc, md, mtl, nonmed) or source 
 
+# Colors based on value (colorbrewer2.org - sequential multi-hue 9-class GnBn)
+my_color_alt <- 'd3.scaleOrdinal() .domain(["thirteen", "twelve", "nine", "seven", "six", "five", "four", "three", "two", "one", "my_unique_group"]) .range(["#084081", "#0868ac", "#2b8cbe", "#4eb3d3", "#7bccc4", "#a8ddb5", "#ccebc5", "#e0f3db", "#f7fcf0", "white", "#8B8989"])'
 
+# Divergent Colors based on value (colorbrewer2.org) - divergent 10-class RdGy
+my_color_alt_a <- 'd3.scaleOrdinal() .domain(["thirteen", "twelve", "nine", "seven", "six", "five", "four", "three", "two", "one", "my_unique_group"]) .range(["#67001f", "#b2182b", "#d6604d", "#f4a582", "#fddbc7", "#e0e0e0", "#bababa", "#878787", "#4d4d4d", "#1a1a1a", "white"])'
 
 
 
