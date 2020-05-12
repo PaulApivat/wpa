@@ -59,7 +59,7 @@ ggplot()
 # 90-degree rotation
 + coord_flip()
 
-#### FINAL plot7 (coord_flip())
+#### FINAL plot7_alt (coord_flip())
 plot7_alt <- ggplot() 
     + geom_histogram(data = subset(overlap2_df, type=='one_medco'), aes(x=assign_num_first_medco, fill='one_medco', y=..count..), binwidth = diff(range(overlap2_df$assign_num_first_medco))/30, fill='#e9222a') 
     + geom_histogram(data = subset(overlap2_df, type=='more_than_one_medco'), aes(x=assign_num_first_medco, fill='more_than_one_medco', y=-..count..), binwidth = diff(range(overlap2_df$assign_num_first_medco))/30, fill='#6c6c6c') 
@@ -77,6 +77,20 @@ ggplot()
 
 # 90-degree rotation
 + coord_flip()
+
+#### FINAL plot7a_alt (two lines - show mean difference)
+plot7a_alt <- ggplot() 
+    # geom_vlines compare mean of two distributions
+    + geom_histogram(data = subset(overlap2_df_a, type=='one_medco'), aes(x=total_num_assign, fill='one_medco', y=..count..), binwidth = diff(range(overlap2_df_a$total_num_assign))/50, fill='#e9222a') 
+    # can choose which rows to calculate mean [1:262] or [263:462]
+    + geom_vline(xintercept = mean(overlap2_df_a$total_num_assign[1:262]), color="#6c6c6c", linetype="dotted", size=1.5) 
+    + geom_histogram(data = subset(overlap2_df_a, type=='more_than_one_medco'), aes(x=total_num_assign, fill='more_than_one_medco', y=-..count..), binwidth = diff(range(overlap2_df_a$total_num_assign))/50, fill='#6c6c6c') 
+    + geom_vline(xintercept = mean(overlap2_df_a$total_num_assign[263:462]), color="#e9222a", linetype="dotted", size=1.5) 
+    + theme_classic() 
+    + xlim(0,30) 
+    + scale_fill_manual(labels=c("One", "More than one"), values = c("#e9222a", "#6c6c6c")) 
+    + labs(x = "Average Number of Assignments", y = "Number of People", title = "Difference in Average Number of Assignments", fill = "Number of MedCo")
+
 
 
 #### Alternative plot7b (see overlap2_df_b)
