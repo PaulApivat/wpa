@@ -143,6 +143,19 @@ ggplot()
 # 90-degree rotation
 + coord_flip()
 
+##### FINAL plot6_alt (absolute value on y-axis)
+plot6_alt <- ggplot() 
+    + geom_histogram(data = subset(overlap_df, type=='consecutive'), aes(x=num_medco, fill='consecutive', y=..count..), binwidth = .5, fill='#EE0000') 
+    + geom_vline(xintercept = mean(overlap_df$num_medco[1:88]), color='#000000', linetype='dotted', size=1.5) 
+    + geom_histogram(data = subset(overlap_df, type=='non-consecutive'), aes(x=num_medco, fill='non-consecutive', y=-..count..), binwidth = .5, fill='#000000') 
+    + geom_vline(xintercept = mean(overlap_df$num_medco[89:200]), color='#EE0000', linetype='dotted', size=1.5) + xlim(0,15) 
+    + theme_classic() 
+    + scale_fill_manual(labels=c("Consecutive", "Non-Consecutive (Gap)"), values = c("#EE0000", "#000000")) 
+    + labs(x = "Number of Medco Assignments", y = "Number of People", title = "Differences in Number of MedCo Assignments", fill = "MedCo Assignments") 
+    + scale_y_continuous(labels = abs)
+
+
+
 
 #### Alternative plot6b (see overlap_df_b)
 
