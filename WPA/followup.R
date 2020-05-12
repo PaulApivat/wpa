@@ -177,9 +177,6 @@ plot6b_alt <- ggplot()
     + scale_y_continuous(labels = abs)
 
 
-
-
-
 #### Alternative plot6a (see overlap_df_a)
 # Note: xlim(0,17)
 ggplot() 
@@ -190,6 +187,18 @@ ggplot()
 
 # 90-degree rotation
 + coord_flip()
+
+##### FINAL plot6a_alt (absolute value on y-axis)
+plot6a_alt <- ggplot() 
+    + geom_histogram(data = subset(overlap_df_a, type=='consecutive'), aes(x=assign_num_first_medco, fill='consecutive', y=..count..), binwidth = .5, fill='#EE0000') 
+    + geom_vline(xintercept = mean(overlap_df_a$assign_num_first_medco[1:88]), color='#000000', linetype='dotted', size=1.5) 
+    + geom_histogram(data = subset(overlap_df_a, type=='non-consecutive'), aes(x=assign_num_first_medco, fill='non-consecutive', y=-..count..), binwidth = .5, fill='#000000') 
+    + geom_vline(xintercept = mean(overlap_df_a$assign_num_first_medco[89:200]), color='#EE0000', linetype='dotted', size=1.5) 
+    + xlim(0,17) 
+    + theme_classic() 
+    + scale_fill_manual(labels=c("Consecutive", "Non-Consecutive (Gap)"), values = c("#EE0000", "#000000")) + labs(x = "Assignment Number of first MedCo", y = "Number of People", title = "When did people do their first MedCo assignment?", fill = "MedCo Pattern") 
+    + scale_y_continuous(labels = abs)
+
 
 ##### Alternative to HISTOGRAM #####
 ### geom_density()
