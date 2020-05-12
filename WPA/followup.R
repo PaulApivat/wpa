@@ -51,8 +51,8 @@ plot7 <- ggplot(data = overlap2_df, mapping = aes(x=assign_num_first_medco, fill
 
 #### Alternative plot7 (see overlap2_df)
 ggplot() 
-    + geom_histogram(data = subset(overlap2_df, type=='one_medco'), aes(x=assign_num_first_medco, fill='one_medco', y=..density..), binwidth = diff(range(overlap2_df$assign_num_first_medco))/30, fill='blue') 
-    + geom_histogram(data = subset(overlap2_df, type=='more_than_one_medco'), aes(x=assign_num_first_medco, fill='more_than_one_medco', y=-..density..), binwidth = diff(range(overlap2_df$assign_num_first_medco))/30, fill='green') 
+    + geom_histogram(data = subset(overlap2_df, type=='one_medco'), aes(x=assign_num_first_medco, fill='one_medco', y=..count..), binwidth = diff(range(overlap2_df$assign_num_first_medco))/30, fill='blue') 
+    + geom_histogram(data = subset(overlap2_df, type=='more_than_one_medco'), aes(x=assign_num_first_medco, fill='more_than_one_medco', y=-..count..), binwidth = diff(range(overlap2_df$assign_num_first_medco))/30, fill='green') 
     + scale_fill_hue('Type')
 
 # 90-degree rotation
@@ -60,8 +60,8 @@ ggplot()
 
 #### Alternative plot7a (see overlap2_df_a)
 ggplot() 
-    + geom_histogram(data = subset(overlap2_df_a, type=='one_medco'), aes(x=total_num_assign, fill='one_medco', y=..density..), binwidth = diff(range(overlap2_df_a$total_num_assign))/30, fill='orange') 
-    + geom_histogram(data = subset(overlap2_df_a, type=='more_than_one_medco'), aes(x=total_num_assign, fill='more_than_one_medco', y=-..density..), binwidth = diff(range(overlap2_df_a$total_num_assign))/30, fill='green') 
+    + geom_histogram(data = subset(overlap2_df_a, type=='one_medco'), aes(x=total_num_assign, fill='one_medco', y=..count..), binwidth = diff(range(overlap2_df_a$total_num_assign))/30, fill='orange') 
+    + geom_histogram(data = subset(overlap2_df_a, type=='more_than_one_medco'), aes(x=total_num_assign, fill='more_than_one_medco', y=-..count..), binwidth = diff(range(overlap2_df_a$total_num_assign))/30, fill='green') 
     + scale_fill_hue('Type')
 
 # 90-degree rotation
@@ -70,8 +70,8 @@ ggplot()
 
 #### Alternative plot7b (see overlap2_df_b)
 ggplot() 
-    + geom_histogram(data = subset(overlap2_df_b, type=='one_medco'), aes(x=diff_date, fill='one_medco', y=..density..), binwidth = diff(range(overlap2_df_b$diff_date))/30, fill='purple') 
-    + geom_histogram(data = subset(overlap2_df_b, type=='more_than_one_medco'), aes(x=diff_date, fill='more_than_one_medco', y=-..density..), binwidth = diff(range(overlap2_df_b$diff_date))/30, fill='green') 
+    + geom_histogram(data = subset(overlap2_df_b, type=='one_medco'), aes(x=diff_date, fill='one_medco', y=..count..), binwidth = diff(range(overlap2_df_b$diff_date))/30, fill='purple') 
+    + geom_histogram(data = subset(overlap2_df_b, type=='more_than_one_medco'), aes(x=diff_date, fill='more_than_one_medco', y=-..count..), binwidth = diff(range(overlap2_df_b$diff_date))/30, fill='green') 
     + scale_fill_hue('Type')
 
 # 90-degree rotation
@@ -79,8 +79,8 @@ ggplot()
 
 #### Alternative plot6 (see overlap_df)
 ggplot() 
-    + geom_histogram(data = subset(overlap_df, type=='consecutive'), aes(x=num_medco, fill='consecutive', y=..density..), binwidth = diff(range(overlap_df$num_medco))/30, fill='pink') 
-    + geom_histogram(data = subset(overlap_df, type=='non-consecutive'), aes(x=num_medco, fill='non-consecutive', y=-..density..), binwidth = diff(range(overlap_df$num_medco))/30, fill='green') 
+    + geom_histogram(data = subset(overlap_df, type=='consecutive'), aes(x=num_medco, fill='consecutive', y=..count..), binwidth = diff(range(overlap_df$num_medco))/30, fill='pink') 
+    + geom_histogram(data = subset(overlap_df, type=='non-consecutive'), aes(x=num_medco, fill='non-consecutive', y=-..count..), binwidth = diff(range(overlap_df$num_medco))/30, fill='green') 
     + scale_fill_hue('Type')
 
 # 90-degree rotation
@@ -90,8 +90,8 @@ ggplot()
 #### Alternative plot6b (see overlap_df_b)
 
 ggplot() 
-    + geom_histogram(data = subset(overlap_df_b, type=='consecutive'), aes(x=total_num_assign, fill='consecutive', y=..density..), binwidth = diff(range(overlap_df_b$total_num_assign))/30, fill='gray') 
-    + geom_histogram(data = subset(overlap_df_b, type=='non-consecutive'), aes(x=total_num_assign, fill='non-consecutive', y=-..density..), binwidth = diff(range(overlap_df_b$total_num_assign))/30, fill='green') 
+    + geom_histogram(data = subset(overlap_df_b, type=='consecutive'), aes(x=total_num_assign, fill='consecutive', y=..count..), binwidth = diff(range(overlap_df_b$total_num_assign))/30, fill='gray') 
+    + geom_histogram(data = subset(overlap_df_b, type=='non-consecutive'), aes(x=total_num_assign, fill='non-consecutive', y=-..count..), binwidth = diff(range(overlap_df_b$total_num_assign))/30, fill='green') 
     + scale_fill_hue('Type')
     
 
@@ -102,8 +102,8 @@ ggplot()
 #### Alternative plot6a (see overlap_df_a)
 # Note: xlim(0,17)
 ggplot() 
-    + geom_histogram(data = subset(overlap_df_a, type=='consecutive'), aes(x=assign_num_first_medco, fill='consecutive', y=..density..), binwidth = diff(range(overlap_df_a$assign_num_first_medco))/30, fill='dodgerblue') 
-    + geom_histogram(data = subset(overlap_df_a, type=='non-consecutive'), aes(x=assign_num_first_medco, fill='non-consecutive', y=-..density..), binwidth = diff(range(overlap_df_a$assign_num_first_medco))/30, fill='green') 
+    + geom_histogram(data = subset(overlap_df_a, type=='consecutive'), aes(x=assign_num_first_medco, fill='consecutive', y=..count..), binwidth = diff(range(overlap_df_a$assign_num_first_medco))/30, fill='dodgerblue') 
+    + geom_histogram(data = subset(overlap_df_a, type=='non-consecutive'), aes(x=assign_num_first_medco, fill='non-consecutive', y=-..count..), binwidth = diff(range(overlap_df_a$assign_num_first_medco))/30, fill='green') 
     + scale_fill_hue('Type') 
     + xlim(0,17)
 
@@ -113,8 +113,8 @@ ggplot()
 ##### Alternative to HISTOGRAM #####
 ### geom_density()
 ggplot() 
-    + geom_density(data = subset(overlap_df_a, type=='consecutive'), aes(x=assign_num_first_medco, fill='consecutive', y=..density..), binwidth = diff(range(overlap_df_a$assign_num_first_medco))/30, fill='dodgerblue') 
-    + geom_density(data = subset(overlap_df_a, type=='non-consecutive'), aes(x=assign_num_first_medco, fill='non-consecutive', y=-..density..), binwidth = diff(range(overlap_df_a$assign_num_first_medco))/30, fill='green') 
+    + geom_density(data = subset(overlap_df_a, type=='consecutive'), aes(x=assign_num_first_medco, fill='consecutive', y=..count..), binwidth = diff(range(overlap_df_a$assign_num_first_medco))/30, fill='dodgerblue') 
+    + geom_density(data = subset(overlap_df_a, type=='non-consecutive'), aes(x=assign_num_first_medco, fill='non-consecutive', y=-..count..), binwidth = diff(range(overlap_df_a$assign_num_first_medco))/30, fill='green') 
     + scale_fill_hue('Type') + xlim(0,17)
 
 ## see also geom_freqpoly() but ignores 'fill' (warning: No colors)
