@@ -54,9 +54,20 @@ ggplot()
     + geom_histogram(data = subset(overlap2_df, type=='one_medco'), aes(x=assign_num_first_medco, fill='one_medco', y=..count..), binwidth = diff(range(overlap2_df$assign_num_first_medco))/30, fill='blue') 
     + geom_histogram(data = subset(overlap2_df, type=='more_than_one_medco'), aes(x=assign_num_first_medco, fill='more_than_one_medco', y=-..count..), binwidth = diff(range(overlap2_df$assign_num_first_medco))/30, fill='green') 
     + scale_fill_hue('Type')
+    + xlim(0,20)
 
 # 90-degree rotation
 + coord_flip()
+
+#### FINAL plot7 (coord_flip())
+plot7_alt <- ggplot() 
+    + geom_histogram(data = subset(overlap2_df, type=='one_medco'), aes(x=assign_num_first_medco, fill='one_medco', y=..count..), binwidth = diff(range(overlap2_df$assign_num_first_medco))/30, fill='#e9222a') 
+    + geom_histogram(data = subset(overlap2_df, type=='more_than_one_medco'), aes(x=assign_num_first_medco, fill='more_than_one_medco', y=-..count..), binwidth = diff(range(overlap2_df$assign_num_first_medco))/30, fill='#6c6c6c') 
+    + theme_classic() 
+    + labs(x = "Average Position of First Medco Assignments", y = "Number of People", title = "Difference in Average Position of First Medco", fill = "Number of MedCo") 
+    + xlim(0,20) 
+    + coord_flip()
+
 
 #### Alternative plot7a (see overlap2_df_a)
 ggplot() 
