@@ -102,6 +102,21 @@ ggplot()
 # 90-degree rotation
 + coord_flip()
 
+
+#### FINAL plot7b_alt (two lines - show mean difference)
+plot7b_alt <- ggplot()
+    # geom_vlines compare mean of two distributions 
+    + geom_histogram(data = subset(overlap2_df_b, type=='one_medco'), aes(x=diff_date, fill='one_medco', y=..count..), binwidth = diff(range(overlap2_df_b$diff_date))/50, fill='#e9222a') 
+    + geom_vline(xintercept = mean(overlap2_df_b$diff_date[1:262]), color="#6c6c6c", linetype="dotted", size=1.5) 
+    + geom_histogram(data = subset(overlap2_df_b, type=='more_than_one_medco'), aes(x=diff_date, fill='more_than_one_medco', y=-..count..), binwidth = diff(range(overlap2_df_b$diff_date))/50, fill='#6c6c6c') 
+    # why [263:946]
+    + geom_vline(xintercept = mean(overlap2_df_b$diff_date[263:946]), color="#e9222a", linetype="dotted", size=1.5) 
+    + theme_classic() 
+    + xlim(0,1000) 
+    + scale_fill_manual(labels=c("One", "More than one"), values = c("#e9222a", "#6c6c6c")) 
+    + labs(x = "Length of MedCo Assignments", y = "Number of People", title = "Difference in Average Length of MedCo Assignments", fill = "Number of MedCo")
+
+
 #### Alternative plot6 (see overlap_df)
 ggplot() 
     + geom_histogram(data = subset(overlap_df, type=='consecutive'), aes(x=num_medco, fill='consecutive', y=..count..), binwidth = diff(range(overlap_df$num_medco))/30, fill='pink') 
