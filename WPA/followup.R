@@ -272,6 +272,9 @@ links6_alt$group <- ifelse(links6_alt$value==1, 'level1', links6_alt$group)
 ## Use GREEN to contrast with original plots that are using 'on-brand' colors
 my_color_alt <- 'd3.scaleOrdinal() .domain(["level5", "level4", "level3", "level2", "level1", "my_unique_group"]) .range(["#006d2c", "#2ca25f", "#66c2a4", "#b2e2e2", "#edf8fb", "#8B8989"])'
 
+## colorbrewer 5-class RdPu (Red Purple)
+my_color_alt2 <- 'd3.scaleOrdinal() .domain(["level5", "level4", "level3", "level2", "level1", "my_unique_group"]) .range(["#7a0177", "#c51b8a", "#f768a1", "#fbb4b9", "#feebe2", "#8B8989"])'
+
 
 ## NEW sankey common career paths sequentially organized by color with 5-shades to minimize cognitive load
 # note retain nodes6
