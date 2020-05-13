@@ -292,10 +292,6 @@ sankeyNetwork(Links = links6_alt, Nodes = nodes6, Source = "IDsource", Target = 
 sankeyNetwork(Links = links6_alt, Nodes = nodes6, Source = "IDsource", Target = "IDtarget", Value = "value", NodeID = "name", colourScale = my_color_alt2, LinkGroup = "group", NodeGroup = "group", iterations = 0, sinksRight = TRUE, nodePadding = 30, nodeWidth = 15, fontSize = 15)
 
 
-## Then try Arc Diagram
-## Arc Diagram source: https://www.r-bloggers.com/arc-diagrams-in-r-les-miserables/
-
-
 
 
 
@@ -407,4 +403,10 @@ ggplot(data = b_alt, mapping = aes(x=age_bracket, y=total_num_assign)) + geom_po
 # original point: consecutive status impact num_medco and total_num_assign
 ggplot(data = b_alt, mapping = aes(x=consecutive2, y=num_medco)) + geom_point() + geom_jitter()
 ggplot(data = b_alt, mapping = aes(x=consecutive2, y=total_num_assign)) + geom_point() + geom_jitter()
+
+# basic scatter plot consecutive vs non-consecutive with color factor by age_bracket
+# (may not be suitable IF age DOES have an effect, see age_bracket scatter plot)
+ggplot(data = b_alt, mapping = aes(x=consecutive2, y=num_medco)) 
+    + geom_point(aes(col=as.factor(age_bracket)), position = 'jitter') 
+
 
