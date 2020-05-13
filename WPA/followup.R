@@ -409,4 +409,6 @@ ggplot(data = b_alt, mapping = aes(x=consecutive2, y=total_num_assign)) + geom_p
 ggplot(data = b_alt, mapping = aes(x=consecutive2, y=num_medco)) 
     + geom_point(aes(col=as.factor(age_bracket)), position = 'jitter') 
 
-
+# basic scatter plot consecutive vs non-consecutive with color factor by GENDER
+ggplot(data = b_alt, mapping = aes(x=consecutive2, y=num_medco)) 
+    + geom_point(aes(col=sex), position = 'jitter') 
