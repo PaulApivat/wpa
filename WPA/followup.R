@@ -288,6 +288,8 @@ sankeyNetwork(Links = links6_alt, Nodes = nodes6, Source = "IDsource", Target = 
 
 ## IMPORTANT - visually helpful to add nodePadding, nodeWidth and fontSize
 sankeyNetwork(Links = links6_alt, Nodes = nodes6, Source = "IDsource", Target = "IDtarget", Value = "value", NodeID = "name", colourScale = my_color_alt, LinkGroup = "group", NodeGroup = "group", iterations = 0, sinksRight = TRUE, nodePadding = 30, nodeWidth = 15, fontSize = 15)
+## same sankey with Red Purple color shades
+sankeyNetwork(Links = links6_alt, Nodes = nodes6, Source = "IDsource", Target = "IDtarget", Value = "value", NodeID = "name", colourScale = my_color_alt2, LinkGroup = "group", NodeGroup = "group", iterations = 0, sinksRight = TRUE, nodePadding = 30, nodeWidth = 15, fontSize = 15)
 
 
 ## Then try Arc Diagram
