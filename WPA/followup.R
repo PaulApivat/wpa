@@ -398,9 +398,18 @@ ggplot(data = b_alt, mapping = aes(x=sex2, y=num_medco)) + geom_point() + geom_j
 # FINAL Gender and Number of Medco - Scatter
 gender_num_medco <- ggplot(data = b_alt, mapping = aes(x=sex2, y=num_medco)) 
     + geom_point(aes(col=as.factor(sex2)), position = 'jitter') 
-    + theme_classic() + theme(axis.text.x = element_blank()) 
+    + theme_classic() 
+    + theme(axis.text.x = element_blank()) 
     + scale_color_manual(values = c('#e9222a', '#6c6c6c'), labels = c("Female", "Male"))  
     + labs(title = "Differences between Gender on Number of MedCo Assignments", y = "Number of MedCo Assignments", x = "Gender", color = 'Gender')
+
+# Final Gender and Total Number of Assignments - Scatter
+gender_total_num_assign <- ggplot(data = b_alt, mapping = aes(x=sex2, y=total_num_assign)) 
+    + geom_point(aes(col=as.factor(sex2)), position = 'jitter') 
+    + theme_classic() 
+    + theme(axis.text.x = element_blank()) 
+    + scale_color_manual(values = c('#e9222a', '#6c6c6c'), labels = c("Female", "Male"))  
+    + labs(title = "Differences between Gender on Total Number of Assignments", y = "Total Number of Assignments", x = "Gender", color = 'Gender')
 
 
 # gender and total_num_assign: point biserial corr 0.01596403
