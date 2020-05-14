@@ -418,8 +418,10 @@ gender_total_num_assign <- ggplot(data = b_alt, mapping = aes(x=sex2, y=total_nu
 
 
 
-# age bracket
+#### Age bracket
 # NOTE: visual does seem to show that age of first assignment appears to matter
+
+# Age_bracket and num_medco: pearson corr -0.02291633
 ggplot(data = b_alt, mapping = aes(x=age_bracket, y=num_medco)) + geom_point() + geom_jitter()
 
 
@@ -433,8 +435,9 @@ age_bracket_num_medco <- ggplot(data = b_alt, mapping = aes(x=age_bracket, y=num
     + labs(title = 'Differences between Age Bracket and Number of MedCo Assignments', y = 'Number of MedCo Assignments', x = 'Age Brackets')
 
 
-
+# Age_bracket and total_num_assign: pearson corr -0.05038205
 ggplot(data = b_alt, mapping = aes(x=age_bracket, y=total_num_assign)) + geom_point() + geom_jitter()
+
 
 # Final Age Bracket and Total Number of Assignments
 age_bracket_total_num_assign <- ggplot(data = b_alt, mapping = aes(x=age_bracket, y=total_num_assign)) 
@@ -447,9 +450,38 @@ age_bracket_total_num_assign <- ggplot(data = b_alt, mapping = aes(x=age_bracket
     + labs(title = 'Differences between Age Bracket and Total Number of Assignments', y = 'Total Number of Assignments', x = 'Age Brackets')
 
 
-# original point: consecutive status impact num_medco and total_num_assign
+### original point: consecutive status impact num_medco and total_num_assign
+# Consecutive_status and Number of MedCo Assignments: point biserial corr 0.655591 (moderately high)
 ggplot(data = b_alt, mapping = aes(x=consecutive2, y=num_medco)) + geom_point() + geom_jitter()
+
+# Final Status (consecutive v non-consecutive) and Number of MedCo Assignments
+# horiztonal line = avg num_medco for 'consecutive' status = 1.38
+# horizontal line = avg num_medco for 'non-consecutive' status = 4.15
+status_num_medco <- ggplot(data = b_alt, mapping = aes(x=consecutive2, y=num_medco)) 
+    + geom_point(aes(col=as.factor(consecutive2)), position = 'jitter') 
+    + geom_hline(yintercept = c(1.38, 4.15), color = 'red', linetype='dashed') 
+    + theme_classic() 
+    + theme(axis.text.x = element_blank()) 
+    + scale_color_manual(values = c('grey', 'black'), labels = c('Non-Consecutive', 'Consecutive')) 
+    + labs(title = 'Differences in Number of MedCo Between Consecutive vs. Non-Consecutive', color = 'Status', y = 'Number of MedCo Assignments', x = 'Status')
+
+
+status_num_medco_alt <- ggplot(data = b_alt, mapping = aes(x=consecutive2, y=num_medco)) 
+    + geom_point(aes(col=as.factor(consecutive2)), position = 'jitter') 
+    + geom_hline(yintercept = c(1.38, 4.15), color = 'white', linetype='dashed', size=1) 
+    + theme_classic() 
+    + theme(axis.text.x = element_blank(), panel.background = element_rect(fill = '#E9222A', color = '#E9222A')) 
+    + scale_color_manual(values = c('grey', 'black'), labels = c('Non-Consecutive', 'Consecutive')) 
+    + labs(title = 'Differences in Number of MedCo Between Consecutive vs. Non-Consecutive', color = 'Status', y = 'Number of MedCo Assignments', x = 'Status')
+
+
+
+
+# Consecutive_status and Total Number of Assignments: point biserial corr 0.5021832 (moderate)
 ggplot(data = b_alt, mapping = aes(x=consecutive2, y=total_num_assign)) + geom_point() + geom_jitter()
+
+
+
 
 # basic scatter plot consecutive vs non-consecutive with color factor by age_bracket
 # (may not be suitable IF age DOES have an effect, see age_bracket scatter plot)
