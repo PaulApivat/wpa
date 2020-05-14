@@ -391,8 +391,19 @@ biserial.cor(b_alt$total_num_assign,b_alt$consecutive2, level = 1)
 
 #### Basic scatter plots
 
-# gender
+## Gender: F = 0, M = 1
+# gender and num_medco: point biserial corr 0.01904766
 ggplot(data = b_alt, mapping = aes(x=sex2, y=num_medco)) + geom_point() + geom_jitter()
+
+# FINAL Gender and Number of Medco - Scatter
+gender_num_medco <- ggplot(data = b_alt, mapping = aes(x=sex2, y=num_medco)) 
+    + geom_point(aes(col=as.factor(sex2)), position = 'jitter') 
+    + theme_classic() + theme(axis.text.x = element_blank()) 
+    + scale_color_manual(values = c('#e9222a', '#6c6c6c'), labels = c("Female", "Male"))  
+    + labs(title = "Differences between Gender on Number of MedCo Assignments", y = "Number of MedCo Assignments", x = "Gender", color = 'Gender')
+
+
+# gender and total_num_assign: point biserial corr 0.01596403
 ggplot(data = b_alt, mapping = aes(x=sex2, y=total_num_assign)) + geom_point() + geom_jitter()
 
 # age bracket
