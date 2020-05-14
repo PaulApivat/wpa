@@ -434,10 +434,17 @@ age_bracket_num_medco <- ggplot(data = b_alt, mapping = aes(x=age_bracket, y=num
 
 
 
-
 ggplot(data = b_alt, mapping = aes(x=age_bracket, y=total_num_assign)) + geom_point() + geom_jitter()
 
-
+# Final Age Bracket and Total Number of Assignments
+age_bracket_total_num_assign <- ggplot(data = b_alt, mapping = aes(x=age_bracket, y=total_num_assign)) 
+    + geom_point(aes(col=as.factor(age_bracket)), position = 'jitter') 
+    + geom_vline(xintercept = c(30,40,50,60), color = '#6c6c6c', linetype='dotted') 
+    + theme_classic() 
+    + theme(legend.position = 'none') 
+    # darker shades of red
+    + scale_color_manual(values = c('#E9222A', '#BA1B22', '#95161B', '#771216', '#5F0E12')) 
+    + labs(title = 'Differences between Age Bracket and Total Number of Assignments', y = 'Total Number of Assignments', x = 'Age Brackets')
 
 
 # original point: consecutive status impact num_medco and total_num_assign
