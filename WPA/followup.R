@@ -403,6 +403,11 @@ gender_num_medco <- ggplot(data = b_alt, mapping = aes(x=sex2, y=num_medco))
     + scale_color_manual(values = c('#e9222a', '#6c6c6c'), labels = c("Female", "Male"))  
     + labs(title = "Differences between Gender on Number of MedCo Assignments", y = "Number of MedCo Assignments", x = "Gender", color = 'Gender')
 
+
+# gender and total_num_assign: point biserial corr 0.01596403
+ggplot(data = b_alt, mapping = aes(x=sex2, y=total_num_assign)) + geom_point() + geom_jitter()
+
+
 # Final Gender and Total Number of Assignments - Scatter
 gender_total_num_assign <- ggplot(data = b_alt, mapping = aes(x=sex2, y=total_num_assign)) 
     + geom_point(aes(col=as.factor(sex2)), position = 'jitter') 
@@ -412,13 +417,28 @@ gender_total_num_assign <- ggplot(data = b_alt, mapping = aes(x=sex2, y=total_nu
     + labs(title = "Differences between Gender on Total Number of Assignments", y = "Total Number of Assignments", x = "Gender", color = 'Gender')
 
 
-# gender and total_num_assign: point biserial corr 0.01596403
-ggplot(data = b_alt, mapping = aes(x=sex2, y=total_num_assign)) + geom_point() + geom_jitter()
 
 # age bracket
 # NOTE: visual does seem to show that age of first assignment appears to matter
 ggplot(data = b_alt, mapping = aes(x=age_bracket, y=num_medco)) + geom_point() + geom_jitter()
+
+
+# Final Age Bracket and Number of Medco Assignments
+age_bracket_num_medco <- ggplot(data = b_alt, mapping = aes(x=age_bracket, y=num_medco)) 
+    + geom_point(aes(col=as.factor(age_bracket)), position = 'jitter') 
+    + geom_vline(xintercept = c(30,40,50,60), color = '#6c6c6c', linetype='dotted') 
+    + theme_classic() 
+    # shades of alizarin red
+    + theme(legend.position = 'none') + scale_color_manual(values = c('#F6A4A8', '#F48D92', '#F17177', '#ED4E55', '#E9222A')) 
+    + labs(title = 'Differences between Age Bracket and Number of MedCo Assignments', y = 'Number of MedCo Assignments', x = 'Age Brackets')
+
+
+
+
 ggplot(data = b_alt, mapping = aes(x=age_bracket, y=total_num_assign)) + geom_point() + geom_jitter()
+
+
+
 
 # original point: consecutive status impact num_medco and total_num_assign
 ggplot(data = b_alt, mapping = aes(x=consecutive2, y=num_medco)) + geom_point() + geom_jitter()
