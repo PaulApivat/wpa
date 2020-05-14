@@ -465,7 +465,7 @@ status_num_medco <- ggplot(data = b_alt, mapping = aes(x=consecutive2, y=num_med
     + scale_color_manual(values = c('grey', 'black'), labels = c('Non-Consecutive', 'Consecutive')) 
     + labs(title = 'Differences in Number of MedCo Between Consecutive vs. Non-Consecutive', color = 'Status', y = 'Number of MedCo Assignments', x = 'Status')
 
-
+# Alternative White
 status_num_medco_alt <- ggplot(data = b_alt, mapping = aes(x=consecutive2, y=num_medco)) 
     + geom_point(aes(col=as.factor(consecutive2)), position = 'jitter') 
     + geom_hline(yintercept = c(1.38, 4.15), color = 'white', linetype='dashed', size=1) 
@@ -475,6 +475,24 @@ status_num_medco_alt <- ggplot(data = b_alt, mapping = aes(x=consecutive2, y=num
     + labs(title = 'Differences in Number of MedCo Between Consecutive vs. Non-Consecutive', color = 'Status', y = 'Number of MedCo Assignments', x = 'Status')
 
 
+# Alternative Red
+status_num_medco_alt2 <- ggplot(data = b_alt, mapping = aes(x=consecutive2, y=num_medco)) 
+    + geom_point(aes(col=as.factor(consecutive2)), position = 'jitter') 
+    + geom_hline(yintercept = c(1.38, 4.15), color = 'white', linetype='dashed', size=1) 
+    + theme_classic() 
+    + theme(axis.text.x = element_blank(), 
+        axis.title.x = element_text(color = 'white'), 
+        axis.title.y = element_text(color = 'white'), 
+        axis.text.y = element_text(color = 'white'), 
+        plot.title = element_text(color = 'white'), 
+        panel.background = element_rect(fill = '#E9222A', color = '#E9222A'), 
+        panel.border = element_rect(color = '#E9222A', fill = NA), 
+        plot.background = element_rect(fill = '#E9222A'), 
+        legend.background = element_rect(fill = '#E9222A'), 
+        legend.title = element_text(color = 'white'), 
+        legend.text = element_text(color = 'white')) 
+    + scale_color_manual(values = c('grey', 'black'), labels = c('Non-Consecutive', 'Consecutive')) 
+    + labs(title = 'Differences in Number of MedCo Between Consecutive vs. Non-Consecutive', color = 'Status', y = 'Number of MedCo Assignments', x = 'Status')
 
 
 # Consecutive_status and Total Number of Assignments: point biserial corr 0.5021832 (moderate)
