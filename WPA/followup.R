@@ -456,7 +456,12 @@ ggplot(data = b_alt, mapping = aes(x=consecutive2, y=num_medco)) + geom_point() 
 
 # Final Status (consecutive v non-consecutive) and Number of MedCo Assignments
 # horiztonal line = avg num_medco for 'consecutive' status = 1.38
+b_alt %>% filter(consecutive2==2) %>% summarize(mean_num_medco = mean(num_medco))
 # horizontal line = avg num_medco for 'non-consecutive' status = 4.15
+b_alt %>% filter(consecutive2==1) %>% summarize(mean_num_medco = mean(num_medco))
+
+
+# Final Status and Number of Medco Assignments
 status_num_medco <- ggplot(data = b_alt, mapping = aes(x=consecutive2, y=num_medco)) 
     + geom_point(aes(col=as.factor(consecutive2)), position = 'jitter') 
     + geom_hline(yintercept = c(1.38, 4.15), color = 'red', linetype='dashed') 
@@ -494,10 +499,36 @@ status_num_medco_alt2 <- ggplot(data = b_alt, mapping = aes(x=consecutive2, y=nu
     + scale_color_manual(values = c('grey', 'black'), labels = c('Non-Consecutive', 'Consecutive')) 
     + labs(title = 'Differences in Number of MedCo Between Consecutive vs. Non-Consecutive', color = 'Status', y = 'Number of MedCo Assignments', x = 'Status')
 
+######
 
 # Consecutive_status and Total Number of Assignments: point biserial corr 0.5021832 (moderate)
 ggplot(data = b_alt, mapping = aes(x=consecutive2, y=total_num_assign)) + geom_point() + geom_jitter()
 
+# Final Status (consecutive v non-consecutive) and Total Number of Assignments
+# horiztonal line = avg total_num_assign for 'non-consecutive' status = 13.42
+b_alt %>% filter(consecutive2==1) %>% summarize(mean_total_num_assign = mean(total_num_assign))
+# horiztonal line = avg total_num_assign for 'consecutive' status = 5.90
+b_alt %>% filter(consecutive2==2) %>% summarize(mean_total_num_assign = mean(total_num_assign))
+
+
+# Final Status and Total Number of Assignments
+status_total_num_assign <- ggplot(data = b_alt, mapping = aes(x=consecutive2, y=total_num_assign)) 
+    + geom_point(aes(col=as.factor(consecutive2)), position = 'jitter') 
+    + geom_hline(yintercept = c(5.90, 13.42), color = 'red', linetype='dashed') 
+    + theme_classic() 
+    + theme(axis.text.x = element_blank()) 
+    + scale_color_manual(values = c('grey', 'black'), labels = c('Non-Consecutive', 'Consecutive')) 
+    + labs(title = 'Differences in Total Number of Assignments Between Consecutive vs. Non-Consecutive', color = 'Status', y = 'Total Number of Assignments', x = 'Status')
+
+# Red and Dark Red
+status_total_num_assign1 <- ggplot(data = b_alt, mapping = aes(x=consecutive2, y=total_num_assign)) 
+    + geom_point(aes(col=as.factor(consecutive2)), position = 'jitter') 
+    + geom_hline(yintercept = c(5.90), color = 'black', size=1) 
+    + geom_hline(yintercept = c(13.42), color = 'grey', size=1) 
+    + theme_classic() 
+    + theme(axis.text.x = element_blank()) 
+    + scale_color_manual(values = c('#5F0E12', '#E9222A'), labels = c('Non-Consecutive', 'Consecutive')) 
+    + labs(title = 'Differences in Total Number of Assignments Between Consecutive vs. Non-Consecutive', color = 'Status', y = 'Total Number of Assignments', x = 'Status')
 
 
 
