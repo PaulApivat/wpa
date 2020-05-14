@@ -531,6 +531,26 @@ status_total_num_assign1 <- ggplot(data = b_alt, mapping = aes(x=consecutive2, y
     + labs(title = 'Differences in Total Number of Assignments Between Consecutive vs. Non-Consecutive', color = 'Status', y = 'Total Number of Assignments', x = 'Status')
 
 
+# Status and Total Number of Assignments (Alternative - RED)
+status_total_num_assign_alt <- ggplot(data = b_alt, mapping = aes(x=consecutive2, y=total_num_assign)) 
+    + geom_point(aes(col=as.factor(consecutive2)), position = 'jitter') 
+    + geom_hline(yintercept = c(5.90), color = 'black', size=1) 
+    + geom_hline(yintercept = c(13.42), color = 'grey', size=1) 
+    + theme_classic() 
+    + theme(axis.text.x = element_blank(), 
+        axis.title.x = element_text(color = 'white'), 
+        axis.title.y = element_text(color = 'white'), 
+        axis.text.y = element_text(color = 'white'), 
+        plot.title = element_text(color = 'white'), 
+        panel.background = element_rect(fill = '#E9222A', color = '#E9222A'), 
+        panel.border = element_rect(color = '#E9222A', fill = NA), 
+        plot.background = element_rect(fill = '#E9222A'), 
+        legend.background = element_rect(fill = '#E9222A'), 
+        legend.title = element_text(color = 'white'), 
+        legend.text = element_text(color = 'white')) 
+    + scale_color_manual(values = c('grey', 'black'), labels = c('Non-Consecutive', 'Consecutive')) 
+    + labs(title = 'Differences in Total Number of Assignments Between Consecutive vs. Non-Consecutive', color = 'Status', y = 'Total Number of Assignments', x = 'Status')
+
 
 # basic scatter plot consecutive vs non-consecutive with color factor by age_bracket
 # (may not be suitable IF age DOES have an effect, see age_bracket scatter plot)
