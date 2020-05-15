@@ -585,3 +585,23 @@ status_num_medco_age <- ggplot(data = b_alt, mapping = aes(x=consecutive2, y=num
 # basic scatter plot consecutive vs non-consecutive with color factor by GENDER
 ggplot(data = b_alt, mapping = aes(x=consecutive2, y=num_medco)) 
     + geom_point(aes(col=sex), position = 'jitter') 
+
+status_num_medco_gender <- ggplot(data = b_alt, mapping = aes(x=consecutive2, y=num_medco)) 
+    + geom_point(aes(col=sex), position = 'jitter') 
+    + geom_hline(yintercept = c(1.38, 4.15), color = 'black', linetype='dashed') 
+    + theme_classic() 
+    + theme(axis.text.x = element_blank()) 
+    + scale_color_manual(values = c('#e41a1c', '#4daf4a'), labels = c('Female', 'Male')) 
+    + labs(title = 'Differences in Number of MedCo Between Consecutive vs. Non-Consecutive', color = 'Gender', y = 'Number of MedCo Assignments', x = 'Status') 
+    + theme(axis.text.x = element_blank(), 
+        axis.title.x = element_text(color = 'white'), 
+        axis.title.y = element_text(color = 'white'), 
+        axis.text.y = element_text(color = 'white'), 
+        plot.title = element_text(color = 'white'), 
+        panel.background = element_rect(fill = '#65737e', color = '#65737e'), 
+        panel.border = element_rect(color = '#65737e', fill = NA), 
+        plot.background = element_rect(fill = '#65737e'), 
+        legend.background = element_rect(fill = '#65737e'), 
+        legend.title = element_text(color = 'white'), 
+        legend.text = element_text(color = 'white'))
+
