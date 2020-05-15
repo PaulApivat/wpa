@@ -557,6 +557,31 @@ status_total_num_assign_alt <- ggplot(data = b_alt, mapping = aes(x=consecutive2
 ggplot(data = b_alt, mapping = aes(x=consecutive2, y=num_medco)) 
     + geom_point(aes(col=as.factor(age_bracket)), position = 'jitter') 
 
+
+# Status Num Medco filled with Age
+# to show that all Age brackets are represented in Non-Consecutive and Consecutive groups
+status_num_medco_age <- ggplot(data = b_alt, mapping = aes(x=consecutive2, y=num_medco)) 
++ geom_point(aes(col=as.factor(age_bracket)), position = 'jitter') 
++ geom_hline(yintercept = c(1.38, 4.15), color = 'black', linetype='dashed') 
++ theme_classic() 
++ theme(axis.text.x = element_blank()) 
++ scale_color_manual(values = c('#ffffcc', '#a1dab4', '#41b6c4', '#2c7fb8', '#253494'), 
+    labels = c('25 - 34 yrs', '35 - 44 yrs', '45 - 54 yrs', '55 - 64 yrs', '65 - 74 yrs')) 
++ labs(title = 'Differences in Number of MedCo Between Consecutive vs. Non-Consecutive', 
+    color = 'Age Bracket', y = 'Number of MedCo Assignments', x = 'Status') 
++ theme(axis.text.x = element_blank(), 
+    axis.title.x = element_text(color = 'white'), 
+    axis.title.y = element_text(color = 'white'), 
+    axis.text.y = element_text(color = 'white'), 
+    plot.title = element_text(color = 'white'), 
+    panel.background = element_rect(fill = '#65737e', color = '#65737e'), 
+    panel.border = element_rect(color = '#65737e', fill = NA), 
+    plot.background = element_rect(fill = '#65737e'), 
+    legend.background = element_rect(fill = '#65737e'), 
+    legend.title = element_text(color = 'white'), 
+    legend.text = element_text(color = 'white'))
+
+
 # basic scatter plot consecutive vs non-consecutive with color factor by GENDER
 ggplot(data = b_alt, mapping = aes(x=consecutive2, y=num_medco)) 
     + geom_point(aes(col=sex), position = 'jitter') 
