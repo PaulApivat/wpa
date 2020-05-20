@@ -196,15 +196,19 @@ ggplot()
 # 90-degree rotation
 + coord_flip()
 
-##### FINAL plot6b_alt (absolute value on y-axis)
-plot6b_alt <- ggplot() 
-    + geom_histogram(data = subset(overlap_df_b, type=='consecutive'), aes(x=total_num_assign, fill='consecutive', y=..count..), binwidth = 1, fill='#EE0000') 
-    + geom_vline(xintercept = mean(overlap_df_b$total_num_assign[1:88]), color='#000000', linetype='dotted', size=1.5) 
-    + geom_histogram(data = subset(overlap_df_b, type=='non-consecutive'), aes(x=total_num_assign, fill='non-consecutive', y=-..count..), binwidth = 1, fill='#000000') 
-    + geom_vline(xintercept = mean(overlap_df_b$total_num_assign[89:200]), color='#EE0000', linetype='dotted', size=1.5) + xlim(0,35) + theme_classic() 
+##### FINAL NEW plot6b_alt (absolute value on y-axis)
+new_plot6b_alt <- ggplot() 
+    + geom_histogram(data = subset(new_overlap_df_b, type=='consecutive'), aes(x=total_num_assign, fill='consecutive', y=..count..), binwidth = 1, fill='#EE0000') 
+    + geom_histogram(data = subset(new_overlap_df_b, type=='non-consecutive'), aes(x=total_num_assign, fill='non-consecutive', y=-..count..), binwidth = 1, fill='#000000') 
+    + xlim(0,35) 
+    + theme_classic() 
     + scale_fill_manual(labels=c("Consecutive", "Non-Consecutive (Gap)"), values = c("#EE0000", "#000000")) 
     + labs(x = "Number of Assignments", y = "Number of People", title = "Differences in Number of (Total) Assignments", fill = "MedCo Pattern") 
     + scale_y_continuous(labels = abs)
+
+## to add vertical lines
++ geom_vline(xintercept = mean(new_overlap_df_b$total_num_assign[1:88]), color='#000000', linetype='dotted', size=1.5) 
++ geom_vline(xintercept = mean(new_overlap_df_b$total_num_assign[89:200]), color='#EE0000', linetype='dotted', size=1.5)
 
 
 #### Alternative plot6a (see overlap_df_a)
