@@ -42,7 +42,48 @@ plot7 <- ggplot(data = overlap2_df, mapping = aes(x=assign_num_first_medco, fill
 ## use existing overlap2_df
 ## source: http://tagteam.harvard.edu/hub_feeds/1981/feed_items/1011661
 ## source: https://www.r-bloggers.com/making-back-to-back-histograms/
-## NOTE: not easy to distinguish between two type
+
+############### When is it appropriate to use Back-to-Back Histograms ##########
+# 1 clear difference between two distribution
+# 2 clear difference between x-axis variable
+
+##### One-timer vs Multi-timer
+
+# Plot 7: Diff avg position 1st medco - NO SIGNIFICANT DIFFERENCE
+# 95 percent confidence interval:
+# -1.2747961  0.1304898
+
+# Plot 7a Diff avg Number of Assignments - YES SIGNIFICANT DIFFERENCE
+# 95 percent confidence interval:
+# -5.499777 -3.239905
+
+# Plot 7b Diff Length of MedCo Assignment - YES SIGNIFICANT DIFFERENCE
+# 95 percent confidence interval:
+#   8.191753 109.060236
+
+### One-Timer vs Multi-Timer (Individual Difference - Gender, Age)
+
+## Are there GENDER differences between One-Timer vs Multi-Timer? - NO RELATIONSHIP
+# [1] -0.004597443
+
+## Are there AGE differences between One-Timer vs Multi-Timer? - NO RELATIONSHIP
+# [1] 0.07349357
+
+
+###### Consecutive vs Non-consecutive
+
+# Plot 6: Diff Number of MedCo - YES SIGNIFICANT DIFFERENCES
+# 95 percent confidence interval:
+# -2.511473 -1.577169
+
+# Plot 6b: Diff Total Number of Assignments - YES SIGNIFICANT DIFFERENCES
+# 95 percent confidence interval:
+# -8.980970 -5.386363
+
+# Plot 6a
+
+## Are there GENDER differences between Consecutive vs Non-Consecutive status?
+## Are there AGE differences between Consecutive vs Non-Consecutive status?
 
 ############ -------- Back-to-Back HISTOGRAMS  ---------- #############
 ############ -------- 90 Degree HISTOGRAMS  ---------- #############
@@ -329,7 +370,7 @@ cor.test(b_alt$age_bracket, b_alt$total_num_assign, method = c('pearson'))
 #  -0.14096306  0.04103549
 
 
-### Run point-biserial correlation between sex and num_medco / total_num_assign
+######## Run point-biserial correlation between sex and num_medco / total_num_assign #########
 # install new package
 library(ltm)
 
@@ -356,6 +397,23 @@ biserial.cor(b_alt$num_medco,b_alt$sex2, level = 1)
 biserial.cor(b_alt$total_num_assign,b_alt$sex2, level = 1)
 # [1] 0.01596403
 
+#### Check that point biserial corr between 'One-Timer vs Multi-Timer'
+#### While we've run correlations between two continuous variables num_medco with Gender/Age
+#### What if we CODED num_medco as dichotomous variable? (one-timer vs multi-timer) ??
+#### Then check differences in Gender and Age btwn One-Timer vs Multi-Timer
+
+b_alt <- add_column(b_alt, num_medco_fct = NA, .after = 'first_departure')
+b_alt$num_medco_fct <- ifelse(b_alt$num_medco==1, 1,2)
+
+## Is there a Relationship Gender and One-Timer vs Multi-Timer?
+biserial.cor(b_alt$num_medco_fct,b_alt$sex2, level = 1)
+# [1] -0.004597443
+
+## Is there a Relationship btween Age Bracket and One-Timer vs Multi-Timer?
+biserial.cor(b_alt$age_bracket, b_alt$num_medco_fct, level = 1)
+# [1] 0.07349357
+
+
 #### Check that point biserial corr between 'consecutive status' is stronger
 #### with num_medco and total_num_assign
 
@@ -377,6 +435,10 @@ biserial.cor(b_alt$num_medco,b_alt$consecutive2, level = 1)
 # moderately high correlation (proving my point)
 biserial.cor(b_alt$total_num_assign,b_alt$consecutive2, level = 1)
 # [1] 0.5021832
+
+
+
+
 
 #### Basic scatter plots
 
@@ -661,3 +723,22 @@ t.test(diff_date ~ type, data = overlap2_df_b_alt)
 # True difference in means is not equal to 0
 # 95 percent confidence interval:
 #   8.191753 109.060236
+
+# NEW ANALYSIS plot6b
+
+new_consecutive_set_b <- data.frame(type = "consecutive", total_num_assign = rnorm(n=88, mean = 5.902857, sd = 4.851579))
+new_non_consecutive_set_b <- data.frame(type = "non-consecutive", total_num_assign = rnorm(n=112, mean = 13.41964, sd = 7.352928))
+new_overlap_df_b <- rbind(new_consecutive_set_b, new_non_consecutive_set_b)
+
+# t-test (YES, Significantly different)
+# 95 percent confidence interval:
+# -8.980970 -5.386363
+
+# NEW plot6b
+new_plot6b <- ggplot(data = new_overlap_df_b, mapping = aes(x=total_num_assign, fill=type)) 
+    + geom_histogram(alpha = .8, binwidth = 1, position = "identity") 
+    + theme_classic() 
+    + scale_fill_manual(labels=c("Consecutive", "Non-Consecutive (Gap)"), values = c("#EE0000", "#000000")) 
+    + xlim(0,30) 
+    + labs(x = "Number of Assignments", y = "Number of People", title = "Differences in Number of (Total) Assignments", fill = "MedCo Pattern")
+
