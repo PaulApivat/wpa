@@ -641,9 +641,13 @@ b_alt <- b
 b_alt[,'diff_date'] <- NA
 b_alt$diff_date <- difftime(b_alt$return_date, b_alt$departure_date, units = c('days'))
 
-# Average Length Medco Assignement for ONE-Timer
+# Average Length Medco Assignement for ONE-Timer (n = 262)
 b_alt %>% filter(num_medco==1) %>% filter(pool=='MEDCO') %>% summarize(average_length_medco = mean(diff_date), sd = sd(diff_date))
   average_length_medco       sd
 1        331.0909 days      359.4093
 
+# Average Length Medco Assignment for MULTI-Timer (n = 200)
+ b_alt %>% filter(num_medco > 1) %>% filter(pool=='MEDCO') %>% summarize(average_length_medco = mean(diff_date), sd = sd(diff_date))
+  average_length_medco       sd
+1        265.0741 days      220.6975
 
