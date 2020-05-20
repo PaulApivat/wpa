@@ -454,6 +454,7 @@ biserial.cor(b_alt$num_medco,b_alt$consecutive2, level = 1)
   avg_num_medco       sd
 1      4.151786 2.428101
 
+
 # run point biserial corr btwn consecutive2 and total_num_assign
 # moderately high correlation (proving my point)
 biserial.cor(b_alt$total_num_assign,b_alt$consecutive2, level = 1)
@@ -591,13 +592,20 @@ b_alt %>% filter(consecutive2==2) %>% summarize(mean_total_num_assign = mean(tot
 
 
 # Final Status and Total Number of Assignments
-status_total_num_assign <- ggplot(data = b_alt, mapping = aes(x=consecutive2, y=total_num_assign)) 
+pattern_total_num_assign <- ggplot(data = b_alt, mapping = aes(x=consecutive2, y=total_num_assign)) 
     + geom_point(aes(col=as.factor(consecutive2)), position = 'jitter') 
-    + geom_hline(yintercept = c(5.90, 13.42), color = 'red', linetype='dashed') 
     + theme_classic() 
     + theme(axis.text.x = element_blank()) 
-    + scale_color_manual(values = c('grey', 'black'), labels = c('Non-Consecutive', 'Consecutive')) 
-    + labs(title = 'Differences in Total Number of Assignments Between Consecutive vs. Non-Consecutive', color = 'Status', y = 'Total Number of Assignments', x = 'Status')
+    + scale_color_manual(values = c('red', 'black'), labels = c('Non-Consecutive', 'Consecutive')) 
+    + labs(title = 'Differences in Total Number of Assignments Between Consecutive vs. Non-Consecutive', color = 'Assignment Pattern', y = 'Total Number of Assignments', x = 'Assignment Pattern')
+
+
+
+# add horizontal line
++ geom_hline(yintercept = c(5.90, 13.42), color = c('black', 'red'), linetype='dashed', size=1.5) 
+
+
+
 
 # Red and Dark Red
 status_total_num_assign1 <- ggplot(data = b_alt, mapping = aes(x=consecutive2, y=total_num_assign)) 
