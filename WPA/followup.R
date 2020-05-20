@@ -104,32 +104,21 @@ ggplot()
 
 
 #### FINAL plot7b_alt (two lines - show mean difference)
-plot7b_alt <- ggplot()
-    # geom_vlines compare mean of two distributions 
-    + geom_histogram(data = subset(overlap2_df_b, type=='one_medco'), aes(x=diff_date, fill='one_medco', y=..count..), binwidth = diff(range(overlap2_df_b$diff_date))/50, fill='#e9222a') 
-    + geom_vline(xintercept = mean(overlap2_df_b$diff_date[1:262]), color="#6c6c6c", linetype="dotted", size=1.5) 
-    + geom_histogram(data = subset(overlap2_df_b, type=='more_than_one_medco'), aes(x=diff_date, fill='more_than_one_medco', y=-..count..), binwidth = diff(range(overlap2_df_b$diff_date))/50, fill='#6c6c6c') 
-    # why [263:946]
-    + geom_vline(xintercept = mean(overlap2_df_b$diff_date[263:946]), color="#e9222a", linetype="dotted", size=1.5) 
-    + theme_classic() 
-    + xlim(0,1000) 
-    + scale_fill_manual(labels=c("One", "More than one"), values = c("#e9222a", "#6c6c6c")) 
-    + labs(x = "Length of MedCo Assignments", y = "Number of People", title = "Difference in Average Length of MedCo Assignments", fill = "Number of MedCo")
-
-
-##### FINAL plot7b_alt2 (Absolute values on y-axis; better 90-degree)
-plot7b_alt2 <- ggplot() 
-    + geom_histogram(data = subset(overlap2_df_b, type=='one_medco'), aes(x=diff_date, fill='one_medco', y=..count..), binwidth = diff(range(overlap2_df_b$diff_date))/50, fill='#e9222a') 
-    + geom_vline(xintercept = mean(overlap2_df_b$diff_date[1:262]), color="#6c6c6c", linetype="dotted", size=1.5) 
-    + geom_histogram(data = subset(overlap2_df_b, type=='more_than_one_medco'), aes(x=diff_date, fill='more_than_one_medco', y=-..count..), binwidth = diff(range(overlap2_df_b$diff_date))/50, fill='#6c6c6c') 
-    + geom_vline(xintercept = mean(overlap2_df_b$diff_date[263:946]), color="#e9222a", linetype="dotted", size=1.5) 
+plot7b_alt <- ggplot() 
+    + geom_histogram(data = subset(overlap2_df_b_alt, type=='one_medco'), aes(x=diff_date, fill='one_medco', y=..count..), binwidth = diff(range(overlap2_df_b_alt$diff_date))/50, fill='#e9222a') 
+    + geom_histogram(data = subset(overlap2_df_b_alt, type=='more_than_one_medco'), aes(x=diff_date, fill='more_than_one_medco', y=-..count..), binwidth = diff(range(overlap2_df_b_alt$diff_date))/50, fill='#6c6c6c') 
     + theme_classic() 
     + xlim(0,1000) 
     + scale_fill_manual(labels=c("One", "More than one"), values = c("#e9222a", "#6c6c6c")) 
     + labs(x = "Length of MedCo Assignments", y = "Number of People", title = "Difference in Average Length of MedCo Assignments", fill = "Number of MedCo") 
-    # absolute value y-axis
-    + scale_y_continuous(labels = abs) 
-    + coord_flip()
+    + scale_y_continuous(labels = abs)
+
+## to add vertical lines
++ geom_vline(xintercept = mean(overlap2_df_b_alt$diff_date[1:262]), color="#6c6c6c", linetype="dotted", size=1.5)
++ geom_vline(xintercept = mean(overlap2_df_b$diff_date[263:462]), color="#e9222a", linetype="dotted", size=1.5)
+
+## 90-degre rotation (NOT RECOMMENDED)
++ coord_flip()
 
 
 
@@ -371,7 +360,7 @@ biserial.cor(b_alt$total_num_assign,b_alt$sex2, level = 1)
 #### with num_medco and total_num_assign
 
 # add consecutive2 column
-b_alt[,'consecutive2'] <- NA
+b_alt <- add_column(b_alt, consecutive2 = NA, .after = 'consecutive')
 
 # check if =='consecutive', enter 2, else 1
 # did not register 'NA' as 'else'
@@ -657,3 +646,18 @@ one_medco_b_alt <- data.frame(type = "one_medco", diff_date = rnorm(n=262, mean 
 more_than_one_medco_b_alt <- data.frame(type = "more_than_one_medco", diff_date = rnorm(n=200, mean = 265.0741, sd = 220.6975))
 overlap2_df_b_alt <- rbind(one_medco_b_alt, more_than_one_medco_b_alt)
 
+# NEW plot7b
+new_plot7b <- ggplot(data = overlap2_df_b_alt, mapping = aes(x=diff_date, fill=type)) 
+    + geom_histogram(alpha = .8, binwidth = 25, position = "identity") 
+    + theme_classic() 
+    + scale_fill_manual(labels=c("One", "More than one"), values = c("#e9222a", "#6c6c6c")) 
+    + xlim(0,1000) 
+    + ylim(0,20) 
+    + labs(x = "Length of MedCo Assignments", y = "Number of People", title = "Difference in Average Length of MedCo Assignments", fill = "Number of MedCo")
+
+# t.test difference for NEW plot7b
+t.test(diff_date ~ type, data = overlap2_df_b_alt)
+
+# True difference in means is not equal to 0
+# 95 percent confidence interval:
+#   8.191753 109.060236
