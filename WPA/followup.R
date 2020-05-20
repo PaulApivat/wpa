@@ -80,10 +80,17 @@ plot7 <- ggplot(data = overlap2_df, mapping = aes(x=assign_num_first_medco, fill
 # 95 percent confidence interval:
 # -8.980970 -5.386363
 
-# Plot 6a
+# Plot 6a: Diff in POSITION of FIRST MedCo Assignment - YES SIGNIFICANT DIFFERENCES
+# 95 percent confidence interval:
+# -2.2823829 -0.2254558
 
-## Are there GENDER differences between Consecutive vs Non-Consecutive status?
-## Are there AGE differences between Consecutive vs Non-Consecutive status?
+## Are there GENDER differences between Consecutive vs Non-Consecutive status? - NO DIFFERENCE
+#biserial.cor(b_alt$sex2, b_alt$consecutive2, level = 1)
+# [1] 0.0135302
+
+## Are there AGE differences between Consecutive vs Non-Consecutive status? - NO DIFFERENCE
+# biserial.cor(b_alt$age_bracket, b_alt$consecutive2, level = 1)
+#[1] -0.00892823
 
 ############ -------- Back-to-Back HISTOGRAMS  ---------- #############
 ############ -------- 90 Degree HISTOGRAMS  ---------- #############
@@ -124,14 +131,15 @@ plot7a_alt <- ggplot()
     # geom_vlines compare mean of two distributions
     + geom_histogram(data = subset(overlap2_df_a, type=='one_medco'), aes(x=total_num_assign, fill='one_medco', y=..count..), binwidth = diff(range(overlap2_df_a$total_num_assign))/50, fill='#e9222a') 
     # can choose which rows to calculate mean [1:262] or [263:462]
-    + geom_vline(xintercept = mean(overlap2_df_a$total_num_assign[1:262]), color="#6c6c6c", linetype="dotted", size=1.5) 
     + geom_histogram(data = subset(overlap2_df_a, type=='more_than_one_medco'), aes(x=total_num_assign, fill='more_than_one_medco', y=-..count..), binwidth = diff(range(overlap2_df_a$total_num_assign))/50, fill='#6c6c6c') 
-    + geom_vline(xintercept = mean(overlap2_df_a$total_num_assign[263:462]), color="#e9222a", linetype="dotted", size=1.5) 
     + theme_classic() 
     + xlim(0,30) 
     + scale_fill_manual(labels=c("One", "More than one"), values = c("#e9222a", "#6c6c6c")) 
     + labs(x = "Average Number of Assignments", y = "Number of People", title = "Difference in Average Number of Assignments", fill = "Number of MedCo")
 
+## to add vertical lines
++ geom_vline(xintercept = mean(overlap2_df_a$total_num_assign[1:262]), color="#6c6c6c", linetype="dotted", size=1.5) 
++ geom_vline(xintercept = mean(overlap2_df_a$total_num_assign[263:462]), color="#e9222a", linetype="dotted", size=1.5) 
 
 
 #### Alternative plot7b (see overlap2_df_b)
@@ -225,13 +233,14 @@ ggplot()
 ##### FINAL plot6a_alt (absolute value on y-axis)
 plot6a_alt <- ggplot() 
     + geom_histogram(data = subset(overlap_df_a, type=='consecutive'), aes(x=assign_num_first_medco, fill='consecutive', y=..count..), binwidth = .5, fill='#EE0000') 
-    + geom_vline(xintercept = mean(overlap_df_a$assign_num_first_medco[1:88]), color='#000000', linetype='dotted', size=1.5) 
     + geom_histogram(data = subset(overlap_df_a, type=='non-consecutive'), aes(x=assign_num_first_medco, fill='non-consecutive', y=-..count..), binwidth = .5, fill='#000000') 
-    + geom_vline(xintercept = mean(overlap_df_a$assign_num_first_medco[89:200]), color='#EE0000', linetype='dotted', size=1.5) 
     + xlim(0,17) 
     + theme_classic() 
     + scale_fill_manual(labels=c("Consecutive", "Non-Consecutive (Gap)"), values = c("#EE0000", "#000000")) + labs(x = "Assignment Number of first MedCo", y = "Number of People", title = "When did people do their first MedCo assignment?", fill = "MedCo Pattern") 
     + scale_y_continuous(labels = abs)
+
++ geom_vline(xintercept = mean(overlap_df_a$assign_num_first_medco[1:88]), color='#000000', linetype='dotted', size=1.5) 
++ geom_vline(xintercept = mean(overlap_df_a$assign_num_first_medco[89:200]), color='#EE0000', linetype='dotted', size=1.5) 
 
 
 ##### Alternative to HISTOGRAM #####
