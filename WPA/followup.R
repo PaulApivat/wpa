@@ -605,3 +605,45 @@ status_num_medco_gender <- ggplot(data = b_alt, mapping = aes(x=consecutive2, y=
         legend.title = element_text(color = 'white'), 
         legend.text = element_text(color = 'white'))
 
+##### RE-DO Plot7b
+##### NOTE: Original plot7b compares One-Timer vs Multi-Timer on LENGTH of MedCo Assignment
+##### Original analysis flawed because there are only 200 multi-timers, not 684
+
+############## Original, Flawed Analysis ##############
+## plot7b
+## The correct calculation for this graph starts with data frame “a” because we want to account for ALL Medco assignments
+## first create diff_date for 'a' using difftime() to find difference between two dates
+## a$diff_date <- difftime(a$return_date, a$departure_date, units = c('days'))
+
+# n = 262 (only one-timers)
+# a %>%
+#    filter(num_medco==1) %>%
+#    filter(pool=="MEDCO") %>%
+#    summarize(average_length_medco = mean(diff_date), sd = sd(diff_date))
+
+#  average_length_medco       sd
+#1        267.6908 days 	263.7288
+
+# n = 684 (staffers go on more than one MedCo)
+# a %>%
+#    filter(num_medco > 1) %>%
+#    filter(pool=="MEDCO") %>%
+#    summarize(average_length_medco = mean(diff_date), sd = sd(diff_date))
+
+#  average_length_medco       sd
+#1        206.0249 days 	226.0477
+
+
+###################################
+
+# NEW ANALYSIS plot7b_alt
+b_alt <- b
+b_alt[,'diff_date'] <- NA
+b_alt$diff_date <- difftime(b_alt$return_date, b_alt$departure_date, units = c('days'))
+
+# Average Length Medco Assignement for ONE-Timer
+b_alt %>% filter(num_medco==1) %>% filter(pool=='MEDCO') %>% summarize(average_length_medco = mean(diff_date), sd = sd(diff_date))
+  average_length_medco       sd
+1        331.0909 days      359.4093
+
+
