@@ -651,3 +651,9 @@ b_alt %>% filter(num_medco==1) %>% filter(pool=='MEDCO') %>% summarize(average_l
   average_length_medco       sd
 1        265.0741 days      220.6975
 
+# create two dataframe, then use rbind() as precursor
+
+one_medco_b_alt <- data.frame(type = "one_medco", diff_date = rnorm(n=262, mean = 331.0909, sd = 359.4093))
+more_than_one_medco_b_alt <- data.frame(type = "more_than_one_medco", diff_date = rnorm(n=200, mean = 265.0741, sd = 220.6975))
+overlap2_df_b_alt <- rbind(one_medco_b_alt, more_than_one_medco_b_alt)
+
