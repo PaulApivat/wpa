@@ -320,6 +320,9 @@ my_color_alt <- 'd3.scaleOrdinal() .domain(["level5", "level4", "level3", "level
 ## colorbrewer 5-class RdPu (Red Purple)
 my_color_alt2 <- 'd3.scaleOrdinal() .domain(["level5", "level4", "level3", "level2", "level1", "my_unique_group"]) .range(["#7a0177", "#c51b8a", "#f768a1", "#fbb4b9", "#feebe2", "#8B8989"])'
 
+## Shades of Alizarin (red)
+my_color_alt3 <- 'd3.scaleOrdinal() .domain(["level5", "level4", "level3", "level2", "level1", "my_unique_group"]) .range(["#3D090B", "#771216", "#E9222A", "#F6A4A8", "whitesmoke", "#8B8989"])'
+
 
 ## NEW sankey common career paths sequentially organized by color with 5-shades to minimize cognitive load
 # note retain nodes6
@@ -335,7 +338,8 @@ sankeyNetwork(Links = links6_alt, Nodes = nodes6, Source = "IDsource", Target = 
 sankeyNetwork(Links = links6_alt, Nodes = nodes6, Source = "IDsource", Target = "IDtarget", Value = "value", NodeID = "name", colourScale = my_color_alt, LinkGroup = "group", NodeGroup = "group", iterations = 0, sinksRight = TRUE, nodePadding = 30, nodeWidth = 15, fontSize = 15)
 ## same sankey with Red Purple color shades
 sankeyNetwork(Links = links6_alt, Nodes = nodes6, Source = "IDsource", Target = "IDtarget", Value = "value", NodeID = "name", colourScale = my_color_alt2, LinkGroup = "group", NodeGroup = "group", iterations = 0, sinksRight = TRUE, nodePadding = 30, nodeWidth = 15, fontSize = 15)
-
+## same sankey with Shades of Alizarin (red)
+sankeyNetwork(Links = links6_alt, Nodes = nodes6, Source = "IDsource", Target = "IDtarget", Value = "value", NodeID = "name", colourScale = my_color_alt3, LinkGroup = "group", NodeGroup = "group", iterations = 0, sinksRight = TRUE, nodePadding = 30, nodeWidth = 15, fontSize = 15)
 
 
 
@@ -886,3 +890,19 @@ View(a %>% filter(is.na(consecutive)) %>%
     group_by(pool) %>% 
     tally(sort = TRUE))
 
+######## SANKEY: One-Timer vs Non-Consecutive
+
+# avg number of assignment (non-consecutive): 13.42
+b_alt %>% filter(is.na(consecutive)) %>% summarize(avg_num_assign = mean(total_num_assign))
+
+# avg number of assignment (one-timer): 5.68
+b_alt %>% filter(num_medco==1) %>% summarize(avg_num_assign = mean(total_num_assign))
+
+####### NON-CONSECUTIVE ########
+
+## copy 'a' into different data frame
+## filter for criteria (one-timer or non-con with at least 10 assignments)
+## create extra column for those 'id'
+## create sankey dataframe
+
+# start dataframe "a", filter for 
