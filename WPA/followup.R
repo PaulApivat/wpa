@@ -851,4 +851,38 @@ new_plot6b <- ggplot(data = new_overlap_df_b, mapping = aes(x=total_num_assign, 
     + labs(x = "Number of Assignments", y = "Number of People", title = "Differences in Number of (Total) Assignments", fill = "MedCo Pattern")
 
 
-##########
+########## Different career paths
+
+# dataframe (multiple assignments per individual; n = 3569)
+a  
+
+## Does the FIRST Assignment proportions look different between
+## one-timer vs multi-timer
+
+# one-timer
+View(a %>% filter(num_medco==1) %>% 
+    filter(assignment_number < 2) %>% 
+    group_by(pool) %>% 
+    tally(sort = TRUE))
+
+# multi-timer
+View(a %>% filter(num_medco > 1) %>% 
+    filter(assignment_number < 2) %>% 
+    group_by(pool) %>% 
+    tally(sort = TRUE))
+
+
+## consecutive vs non-consecutive ?
+
+# consecutive
+View(a %>% filter(consecutive=='consecutive') %>% 
+    filter(assignment_number < 2) %>% 
+    group_by(pool) %>% 
+    tally(sort = TRUE))
+
+# non-consecutive
+View(a %>% filter(is.na(consecutive)) %>% 
+    filter(assignment_number < 2) %>% 
+    group_by(pool) %>% 
+    tally(sort = TRUE))
+
