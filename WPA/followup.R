@@ -724,7 +724,44 @@ medco_pattern <- ggplot(data = b_alt, mapping = aes(x=num_medco_fct, y=total_num
 # add horizontal lines
 + geom_hline(yintercept = c(5.68, 10.41), color = c('pink', 'red'), linetype='dashed', size=1.5) 
 
+### Add Age Bracket to One-Timer vs Multi-Timer split
+medco_pattern_age <- ggplot(data = b_alt, mapping = aes(x=num_medco_fct, y=total_num_assign)) 
+    + geom_point(aes(col=as.factor(age_bracket)), position = 'jitter') 
+    + theme_classic() 
+    + theme(axis.text.x = element_blank()) 
+    + scale_color_manual(values = c('#ffffcc', '#a1dab4', '#41b6c4', '#2c7fb8', '#253494'), labels = c('25 - 34 yrs', '35 - 44 yrs', '45 - 54 yrs', '55 - 64 yrs', '65 - 74 yrs')) 
+    + labs(title = 'Differences in Total Number of Assignment Between One-Timer vs. Multi-Timer', color = 'Age Bracket', y = 'Total Number of Assignment', x = 'Medco Pattern') 
+    + theme(axis.text.x = element_blank(), 
+        axis.title.x = element_text(color = 'white'), 
+        axis.title.y = element_text(color = 'white'), 
+        axis.text.y = element_text(color = 'white'), 
+        plot.title = element_text(color = 'white'), 
+        panel.background = element_rect(fill = '#65737e', color = '#65737e'), 
+        panel.border = element_rect(color = '#65737e', fill = NA), 
+        plot.background = element_rect(fill = '#65737e'), 
+        legend.background = element_rect(fill = '#65737e'), 
+        legend.title = element_text(color = 'white'), 
+        legend.text = element_text(color = 'white'))
 
+
+### Add Gender to One-Timer vs Multi-Timer split
+medco_pattern_gender <- ggplot(data = b_alt, mapping = aes(x=num_medco_fct, y=total_num_assign)) 
+    + geom_point(aes(col=sex), position = 'jitter') 
+    + theme_classic() 
+    + theme(axis.text.x = element_blank()) 
+    + scale_color_manual(values = c('#e41a1c', '#4daf4a'), labels = c('Female', 'Male')) 
+    + labs(title = 'Differences in Total Number of Assignments Between One-Timer vs. Multi-Timer', color = 'Gender', y = 'Total Number of Assignments', x = 'MedCo Pattern') 
+    + theme(axis.text.x = element_blank(), 
+        axis.title.x = element_text(color = 'white'), 
+        axis.title.y = element_text(color = 'white'), 
+        axis.text.y = element_text(color = 'white'), 
+        plot.title = element_text(color = 'white'), 
+        panel.background = element_rect(fill = '#65737e', color = '#65737e'), 
+        panel.border = element_rect(color = '#65737e', fill = NA), 
+        plot.background = element_rect(fill = '#65737e'), 
+        legend.background = element_rect(fill = '#65737e'), 
+        legend.title = element_text(color = 'white'), 
+        legend.text = element_text(color = 'white'))
 
 
 ##### RE-DO Plot7b
