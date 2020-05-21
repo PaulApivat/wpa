@@ -460,6 +460,24 @@ biserial.cor(b_alt$num_medco,b_alt$consecutive2, level = 1)
 biserial.cor(b_alt$total_num_assign,b_alt$consecutive2, level = 1)
 # [1] 0.5021832
 
+###### Check Correlation betwen num_medco_fct (one-timer vs multi-timer)
+###### and Total Number of Assignments
+
+# num_medco_fct
+cor.test(b_alt$total_num_assign, b_alt$num_medco_fct)
+# 95 percent confidence interval:
+# 0.2839398 0.4421730
+# sample estimates:
+#      cor 
+# 0.3656959 
+
+# num_medco
+cor.test(b_alt$total_num_assign, b_alt$num_medco)
+# 95 percent confidence interval:
+# 0.4284537 0.5655581
+# sample estimates:
+#      cor 
+# 0.5001337
 
 
 
@@ -692,6 +710,23 @@ status_num_medco_gender <- ggplot(data = b_alt, mapping = aes(x=consecutive2, y=
         legend.title = element_text(color = 'white'), 
         legend.text = element_text(color = 'white'))
 
+####### Similar to Consecutive vs Non-Consecutive
+####### Run One-Timer vs Multi-Timer
+
+medco_pattern <- ggplot(data = b_alt, mapping = aes(x=num_medco_fct, y=total_num_assign)) 
+    + geom_point(aes(col=as.factor(num_medco_fct)), position = 'jitter') 
+    + theme_classic() 
+    + theme(axis.text.x = element_blank()) 
+    + scale_color_manual(values = c('pink', 'red'), labels = c('One-Timer', 'Multi-Timer')) 
+    + labs(title = 'Differences in Total Number of Assignments Between One-Timer vs. Multi-Timer', color = 'MedCo Pattern', y = 'Total Number of Assignments', x = 'MedCo Pattern')
+
+
+# add horizontal lines
++ geom_hline(yintercept = c(5.68, 10.41), color = c('pink', 'red'), linetype='dashed', size=1.5) 
+
+
+
+
 ##### RE-DO Plot7b
 ##### NOTE: Original plot7b compares One-Timer vs Multi-Timer on LENGTH of MedCo Assignment
 ##### Original analysis flawed because there are only 200 multi-timers, not 684
@@ -778,3 +813,5 @@ new_plot6b <- ggplot(data = new_overlap_df_b, mapping = aes(x=total_num_assign, 
     + xlim(0,30) 
     + labs(x = "Number of Assignments", y = "Number of People", title = "Differences in Number of (Total) Assignments", fill = "MedCo Pattern")
 
+
+##########
